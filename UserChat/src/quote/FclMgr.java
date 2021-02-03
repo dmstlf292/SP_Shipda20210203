@@ -21,8 +21,8 @@ public class FclMgr {
 		try {
 			int ref = getMaxNoFcl() + 1;
 			con = pool.getConnection();
-			sql = "insert fcl(departure,port,address,transit,arrive,aport,aAddress,aTransit,incoterms,item,ctype,csize,danger,lss,surcharge,extra,      regdate,ref,pos,depth,count, client,volume) "
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,     now(),?,0,0,0,?,?)";
+			sql = "insert fcl(departure,port,address,transit,arrive,aport,aAddress,aTransit,incoterms,item,ctype,csize,danger,lss,surcharge,extra,      regdate,ref,pos,depth,count, client,volume,userID) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,     now(),?,0,0,0,?,?,?)";
 				
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bean.getDeparture());
@@ -47,6 +47,7 @@ public class FclMgr {
 			//pstmt.setInt(19, bean.getCount());//int형 =0, 여기 안적음
 			pstmt.setString(18,  bean.getClient());
 			pstmt.setInt(19,bean.getVolume());
+			pstmt.setString(20, bean.getUserID());
 			
 			if(pstmt.executeUpdate()==1) flag = true;
 			
@@ -160,7 +161,7 @@ public class FclMgr {
 				bean.setCount(rs.getInt("count"));
 				bean.setClient(rs.getString("client"));
 				bean.setVolume(rs.getInt("volume"));
-				
+				bean.setUserID(rs.getString("userID"));
 				vlist.addElement(bean);
 			}
 
@@ -217,6 +218,7 @@ public class FclMgr {
 				bean.setCount(rs.getInt("count"));
 				bean.setClient(rs.getString("client"));
 				bean.setVolume(rs.getInt("volume"));
+				bean.setUserID(rs.getString("userID"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,6 +227,59 @@ public class FclMgr {
 		}
 		return bean;
 	}
+	
+	//userid당 가져와야하는것
+	public Vector<FclBean> getFclList(String userID){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Vector<FclBean> vlist = new Vector<FclBean>();
+		try {
+			con = pool.getConnection();
+			sql = "select * from fcl where userID=? order by no desc";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,userID);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				FclBean fcl = new FclBean();
+				fcl.setNo(rs.getInt("no"));
+				fcl.setDeparture(rs.getString("departure"));
+				fcl.setPort(rs.getString("port"));
+				fcl.setAddress(rs.getString("address"));
+				fcl.setTransit(rs.getString("transit"));
+				fcl.setArrive(rs.getString("arrive"));
+				fcl.setAport(rs.getString("aport"));
+				fcl.setaAddress(rs.getString("aAddress"));
+				fcl.setaTransit(rs.getString("aTransit"));
+				fcl.setIncoterms(rs.getString("incoterms"));
+				fcl.setItem(rs.getString("item"));
+				fcl.setCtype(rs.getString("ctype"));
+				fcl.setCsize(rs.getString("csize"));
+				fcl.setDanger(rs.getString("danger"));
+				fcl.setLss(rs.getString("lss"));
+				fcl.setSurcharge(rs.getString("surcharge"));
+				fcl.setExtra(rs.getString("extra"));
+				fcl.setRegdate(rs.getString("regdate"));
+				fcl.setRef(rs.getInt("ref"));
+				fcl.setPos(rs.getInt("pos"));
+				fcl.setDepth(rs.getInt("depth"));
+				fcl.setCount(rs.getInt("count"));
+				fcl.setClient(rs.getString("client"));
+				fcl.setVolume(rs.getInt("volume"));
+				fcl.setUserID(rs.getString("userID"));
+				vlist.addElement(fcl);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vlist;
+	}
+	
+	
+	
 	
 	
 	

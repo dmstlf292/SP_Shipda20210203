@@ -25,6 +25,27 @@
 						<li>
 							<a href="index.jsp" class="dropdown-toggle">Home</a>
 						</li>
+						
+						<%
+							if(userID==null){
+						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">업무의뢰 리스트</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="../quote/boardFclView.jsp">FCL업무의뢰 리스트</a></li>
+													<li><a href="../quote/boardLclView.jsp">LCL업무의뢰 리스트</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<%}else{%>
 						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">실시간 견적 조회</a>
 							<ul class="dropdown-menu megamenu-content" role="menu">
 								<li>
@@ -57,6 +78,7 @@
 								</li>
 							</ul>
 						</li>
+						<%}%>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<%

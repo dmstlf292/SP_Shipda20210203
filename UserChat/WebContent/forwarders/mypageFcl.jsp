@@ -14,6 +14,10 @@
 			response.sendRedirect("../user/login.jsp?url="+url);
 			return;//이후에 jsp 코드 실행 안됨.
 		}
+		String userID =null;
+		if(session.getAttribute("userID")!=null){
+			userID = (String) session.getAttribute("userID");
+		}
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +85,7 @@
 										<div class="col-menu col-md-3">
 											<div class="content">
 												<ul class="menu-col">
-													<li><a href="mypage.jsp">My Page</a></li>
+													<li><a href="mypageFcl.jsp">My Page</a></li>
 												</ul>
 											</div>
 										</div>
@@ -108,7 +112,8 @@
 							<div class="collapse sidebar-collapse" id="dashboard-menu">
 								<ul class="nav" id="main-menu">
 									<li>
-										<a href="mypage.jsp"><i class="fa fa-dashboard" aria-hidden="true"></i>창고입고 후 수입운송</a>
+										<a href="mypageFcl.jsp"><i class="fa fa-dashboard" aria-hidden="true"></i>FCL/창고입고 후 수입운송</a>
+										<a href="mypageLcl.jsp"><i class="fa fa-dashboard" aria-hidden="true"></i>LCL/창고입고 후 수입운송</a>
 									</li>
 								</ul>
 							</div>
@@ -131,6 +136,7 @@
 															<thead>
 																<tr>
 																	<th>#NO</th>
+																	<th>CLIENT</th>
 																	<th>ITEM</th>
 																	<th>DEPARTURE</th>
 																	<th>ARRIVE</th>
@@ -160,6 +166,7 @@
 															<tbody>
 																<tr>
 																	<td><%=quotation.getNo()%></td>
+																	<td><%=fcl.getUserID()%>
 																	<td><%=fcl.getItem() %></td>
 																	<td><%=fcl.getDeparture()%></td>
 																	<td><%=fcl.getArrive()%></td>
@@ -174,6 +181,7 @@
 																		%>
 																	</td>
 																	<td>
+																		<!-- mypage?no= 이건 get방식, 주소창에도 보이는 방식 => get 방식 -->
 																		<button name = "detail" method="post" class="btn theme-btn"
 																		onclick="location.href='fclReplyRead.jsp?no=<%=quotation.getNo()%>';">detail</button>
 																	</tr>

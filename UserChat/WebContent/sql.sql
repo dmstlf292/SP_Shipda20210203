@@ -18,7 +18,6 @@ CREATE TABLE forwardersMember (
 
 
 
-
 CREATE TABLE CHAT (
 	chatID  int  auto_increment  ,
 	fromID  varchar(20),
@@ -51,12 +50,14 @@ CREATE TABLE fcl (
 	surcharge		varchar(20) ,
 	extra			varchar(20) ,
 	regdate         date  ,
+	
 	ref               smallint(7) ,
 	pos                smallint(7) unsigned ,
 	depth             smallint(7) unsigned,
 	count             smallint(7) unsigned,
 	client			varchar(20),
 	volume 			int(255) NOT NULL,
+	userID			varchar(20)  NULL,
 	PRIMARY KEY ( no )
 )COLLATE='euckr_korean_ci';
 
@@ -85,8 +86,8 @@ CREATE TABLE fclQuotation (
 	tt				varchar(20)  NULL,
 	validity		varchar(20)  NULL,
 	date		varchar(20)  NULL,
-	state		varchar(20)  NULL,
-	userID		varchar(20)  NULL,
+	state		varchar(100)  NULL,
+	id		varchar(20)  NULL,
 	PRIMARY KEY ( no )
 )COLLATE='euckr_korean_ci';
 
@@ -129,7 +130,7 @@ CREATE TABLE lcl (
 	volume			   int(255)  NOT NULL,
 	packageCount		 int(255)  NOT NULL,
 	cbmCal				 int(255)  NOT NULL,
-	
+	userID			varchar(20)  NULL,
 	PRIMARY KEY ( no )
 )COLLATE='euckr_korean_ci';
 
@@ -155,8 +156,8 @@ CREATE TABLE lclQuotation (
 	tt				varchar(20)  NULL,
 	validity		varchar(20)  NULL,
 	date		varchar(20)  NULL,
-	state		varchar(20)  NULL,
-	userID		varchar(20)  NULL,
+	state		varchar(100)  NULL,
+	id		varchar(20)  NULL,
 	PRIMARY KEY ( lclno )
 )COLLATE='euckr_korean_ci';
 

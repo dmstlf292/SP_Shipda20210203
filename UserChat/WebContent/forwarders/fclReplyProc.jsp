@@ -8,13 +8,12 @@
 		request.setCharacterEncoding("EUC-KR");
 		String flag = request.getParameter("flag");
 		int pickupRate = Integer.parseInt(request.getParameter("pickupRate"));
+		//인티저 변환 해야함(주소창에 있는 값들은 모두 int->string 형으로 변환해줘야 읽힌다)
 		String no = request.getParameter("no");
 		System.out.println("proc체크:"+no);
-		
 		System.out.println("출력테스트1"+pickupRate);
-		
+		//빈에 담겨있는 PickupRate 값을 세팅해서, get으로 가져오기
 		fqbean.setPickupRate(pickupRate);
-		
 		System.out.println("bean값 체크"+fqbean.getPickupRate());	
 		
 		//fclReply 인설트
@@ -24,7 +23,7 @@
 		String url="fclReply.jsp";
 		if(result){
 			msg="등록성공";
-			url="mypage.jsp?no="+no;
+			url="mypageFcl.jsp?no="+no;
 		}
 
 %>

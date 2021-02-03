@@ -21,7 +21,7 @@ public class LclMgr {
 		try {
 			int ref = getMaxNoLcl() + 1;
 			con = pool.getConnection();
-			sql = "insert lcl(departure,port,address,transit,arrive,aport,aAddress,aTransit,incoterms,packingType,item,danger,stackable,lss,surcharge,extra,client,volumeUnit,weightUnit,regdate,         ref,pos,depth,count,width,llength,height,volume,packageCount,cbmCal) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),    ?,0,0,0,?,?,?,?,?,?)";
+			sql = "insert lcl(departure,port,address,transit,arrive,aport,aAddress,aTransit,incoterms,packingType,item,danger,stackable,lss,surcharge,extra,client,volumeUnit,weightUnit,regdate,         ref,pos,depth,count,width,llength,height,volume,packageCount,cbmCal, userID) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),    ?,0,0,0,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bean.getDeparture());
 			pstmt.setString(2, bean.getPort());
@@ -46,12 +46,13 @@ public class LclMgr {
 			
 			
 			pstmt.setInt(20, ref);
-			pstmt.setInt(21, bean.getWidth());
-			pstmt.setInt(22, bean.getLlength());
-			pstmt.setInt(23, bean.getHeight());
+			pstmt.setFloat(21, bean.getWidth());
+			pstmt.setFloat(22, bean.getLlength());
+			pstmt.setFloat(23, bean.getHeight());
 			pstmt.setInt(24, bean.getVolume());
 			pstmt.setInt(25, bean.getPackageCount());
-			pstmt.setInt(26, bean.getCbmCal());
+			pstmt.setFloat(26, bean.getCbmCal());
+			pstmt.setString(27, bean.getUserID());
 			
 			if(pstmt.executeUpdate()==1) flag = true;
 
@@ -174,6 +175,7 @@ public class LclMgr {
 				bean.setVolume(rs.getInt("volume"));
 				bean.setPackageCount(rs.getInt("packageCount"));
 				bean.setCbmCal(rs.getInt("cbmCal"));
+				bean.setUserID(rs.getString("userID"));
 				
 				vlist.addElement(bean);
 			}
@@ -240,7 +242,7 @@ public class LclMgr {
 				bean.setVolume(rs.getInt("volume"));
 				bean.setPackageCount(rs.getInt("packageCount"));
 				bean.setCbmCal(rs.getInt("cbmCal"));
-				
+				bean.setUserID(rs.getString("userID"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

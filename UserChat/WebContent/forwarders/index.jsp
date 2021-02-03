@@ -13,13 +13,6 @@
 			return;//이후에 jsp 코드 실행 안됨.
 		}
 		
-		String userID =null;
-		if(session.getAttribute("userID")!=null){
-			userID = (String) session.getAttribute("userID");
-		}
-		
-		String userProfile = new UserDAO().getProfile(userID);
-		
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +73,7 @@
 										<div class="col-menu col-md-3">
 											<div class="content">
 												<ul class="menu-col">
-													<li><a href="../forwarders/mypage.jsp">My Page</a></li>
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
 												</ul>
 											</div>
 										</div>

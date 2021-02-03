@@ -17,6 +17,10 @@
 			response.sendRedirect("../user/login.jsp?url="+url);
 			return;//이후에 jsp 코드 실행 안됨.
 		}
+		String userID =null;
+		if(session.getAttribute("userID")!=null){
+			userID = (String) session.getAttribute("userID");
+		}
 		//여길 손봤음!!!!중요!!!!! + 유효성검사(해도 되고 안해도 되고)
 		if(request.getParameter("quotation.getNo()")!=null){
 			no = Integer.parseInt(request.getParameter("quotation.getNo()"));
@@ -131,7 +135,7 @@
 										<div class="col-menu col-md-3">
 											<div class="content">
 												<ul class="menu-col">
-													<li><a href="../forwarders/mypage.jsp">My Page</a></li>
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
 												</ul>
 											</div>
 										</div>
@@ -317,6 +321,7 @@
 									</br>
 									 <button type="submit" class="btn theme-btn">견적 제출하기</button>
 									 <button type="button" class="btn theme-btn" onClick="history.back()">돌아가기</button>
+									 <input type="hidden" value="<%=userID%>" name="userID">
 								</div>
 							</div>
 						</div>

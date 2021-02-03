@@ -20,7 +20,7 @@ public class LclQuotationMgr {
 		boolean flag = false;
 		try {
 			con = pool.getConnection();
-			sql = "insert lclQuotation(no,pickupRate,ofRate,customsBrokerRate,blDocRate,consolThcRate,portTransferRate,vgmRate,amsHandlingRate,usd,won,        remarks,oftype,carrier,tt,validity,date,state,userID) "
+			sql = "insert lclQuotation(no,pickupRate,ofRate,customsBrokerRate,blDocRate,consolThcRate,portTransferRate,vgmRate,amsHandlingRate,usd,won,        remarks,oftype,carrier,tt,validity,date,state,id) "
 					+ "values(?,?,?,?,?,?,?,?,?,?,?     ,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, lclq.getNo());
@@ -40,9 +40,9 @@ public class LclQuotationMgr {
 			pstmt.setString(14, lclq.getCarrier());
 			pstmt.setString(15, lclq.getTt());
 			pstmt.setString(16, lclq.getValidity());
-			pstmt.setString(17, lclq.getDate());
-			pstmt.setString(18, lclq.getState());
-			pstmt.setString(19, lclq.getUserID());
+			pstmt.setString(17, UtilMgr.getDay());
+			pstmt.setString(18, "1");
+			pstmt.setString(19, lclq.getId());
 			
 			if(pstmt.executeUpdate()==1) flag = true;
 
@@ -55,7 +55,7 @@ public class LclQuotationMgr {
 	}
 	
 	//Detail
-	public LclQuotationBean getLclQuotationDetail(int lclno) {
+	public LclQuotationBean getLclQuotationDetail(int no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -63,9 +63,9 @@ public class LclQuotationMgr {
 		LclQuotationBean quotation = new LclQuotationBean();
 		try {
 			con = pool.getConnection();
-			sql = "select * from lclQuotation where lclno=?";
+			sql = "select * from lclQuotation where no=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, lclno);
+			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				quotation.setLclno(rs.getInt("lclno"));
@@ -89,7 +89,7 @@ public class LclQuotationMgr {
 				quotation.setValidity(rs.getString("validity"));
 				quotation.setDate(rs.getString("date"));
 				quotation.setState(rs.getString("state"));
-				quotation.setUserID(rs.getString("userID"));
+				quotation.setId(rs.getString("id"));
 			}
 
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class LclQuotationMgr {
 				quotation.setValidity(rs.getString("validity"));
 				quotation.setDate(rs.getString("date"));
 				quotation.setState(rs.getString("state"));
-				quotation.setUserID(rs.getString("userID"));	
+				quotation.setId(rs.getString("id"));	
 				vlist.addElement(quotation);
 			}
 		} catch (Exception e) {
@@ -182,7 +182,7 @@ public class LclQuotationMgr {
 				quotation.setValidity(rs.getString("validity"));
 				quotation.setDate(rs.getString("date"));
 				quotation.setState(rs.getString("state"));
-				quotation.setUserID(rs.getString("userID"));	
+				quotation.setId(rs.getString("id"));	
 				vlist.addElement(quotation);
 			}
 		} catch (Exception e) {

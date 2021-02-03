@@ -1,13 +1,19 @@
-<%@page import="quote.FclBean"%>
+<%@page import="quote.LclBean"%>
 <%@page import="fmember.ForwardersMemberBean"%>
-<%@page import="forwarders.FclQuotationBean"%>
+<%@page import="forwarders.LclQuotationBean"%>
 <%@page import="java.util.Vector"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<jsp:useBean id="fcl" class="quote.FclMgr"/>
-<jsp:useBean id="fclq" class="forwarders.FclQuotationMgr"/>
+<jsp:useBean id="quotationMgr" class="forwarders.LclQuotationMgr"/>
+<jsp:useBean id="lclMgr" class="quote.LclMgr"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
-
+		String id = (String)session.getAttribute("idKey");
+		if(id==null){
+			//현재 접속된 url값
+			StringBuffer url = request.getRequestURL();
+			response.sendRedirect("../user/login.jsp?url="+url);
+			return;//이후에 jsp 코드 실행 안됨.
+		}
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,14 +26,75 @@
     <link href="assets/css/style.css" rel="stylesheet">
 	<link href="assets/css/responsiveness.css" rel="stylesheet"><link id="jssDefault" rel="stylesheet" href="assets/css/skins/default.css">
 	<script type="text/javascript">
-		function fclReplyRead(no){
+		function lclReplyRead(no){
 			document.detail.no.value=no?;
 			document.detail.submit();
 		}
 	</script>
 	</head>
 	<body>
-	<%@ include file="../index/top.jsp" %>
+	
+	<nav class="navbar navbar-default navbar-mobile navbar-fixed light bootsnav">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+						<i class="fa fa-bars"></i>
+					</button>
+					<a class="navbar-brand" href="index.jsp">
+						<img src="assets/img/logo.png" class="logo logo-display" alt="">
+						<img src="assets/img/logo.png" class="logo logo-scrolled" alt="">
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-menu">
+					<ul class="nav navbar-nav navbar-left" data-in="fadeInDown" data-out="fadeOutUp">
+						<li>
+							<a href="index.jsp" class="dropdown-toggle">Home</a>
+						</li>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">업무의뢰 리스트</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="boardFclView.jsp">FCL업무의뢰 리스트</a></li>
+													<li><a href="boardLclView.jsp">LCL업무의뢰 리스트</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="pricing.jsp">Pricing</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<%
+							if(id!=null){
+						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="mypageFcl.jsp">My Page</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="br-right"><a href="../user/userLogout.jsp" ><i class="login-icon ti-user"></i>Logout</a></li>
+						<%}%>
+					</ul>
+				</div>
+			</div>  
+		</nav>
 		<section class="dashboard gray-bg padd-0 mrg-top-50">
 			<div class="container-fluid">
 				<div class="row">
@@ -39,16 +106,10 @@
 								</button>
 							</div>
 							<div class="collapse sidebar-collapse" id="dashboard-menu">
-								<div class="profile-wrapper">
-									<div class="profile-wrapper-thumb">
-										<img src="<%=userProfile%>" class="img-responsive img-circle" alt="" />
-										<span class="dashboard-user-status bg-success"></span>
-									</div>
-									<h4><%=userID%></h4>
-								</div>
 								<ul class="nav" id="main-menu">
 									<li>
-										<a href="mypage.jsp"><i class="fa fa-dashboard" aria-hidden="true"></i>창고입고 후 수입운송</a>
+										<a href="mypageFcl.jsp"><i class="fa fa-dashboard" aria-hidden="true"></i>FCL/창고입고 후 수입운송</a>
+										<a href="mypageLcl.jsp"><i class="fa fa-dashboard" aria-hidden="true"></i>LCL/창고입고 후 수입운송</a>
 									</li>
 								</ul>
 							</div>
@@ -58,7 +119,7 @@
 						<div class="row mrg-0 mrg-top-20">
 							<div class="tr-single-box">
 								<div class="tr-single-header">
-									<h3 class="dashboard-title">전체 창고입고 후 수입운송 현황입니다.</h3>
+									<h3 class="dashboard-title">견적 진행중인 LIST</h3>
 								</div>
 								<div class="tr-single-body">
 										
@@ -81,48 +142,50 @@
 																</tr>
 															</thead>
 															<%
-																Vector<FclQuotationBean> vlist = fclq.getFclQuotationList(userID);
-																out.println(vlist.size());
+																Vector<LclQuotationBean> vlist = quotationMgr.getLclQuotationList();
 																if(vlist.isEmpty()){
-																	
 															%>
 															<tr>
-																<td colspan="8" align="center">Empty</td>
+																<td colspan="7" align="center">Empty</td>
 															</tr>
 															<%}else{
-																	for(int i=0; i<vlist.size();i++){
-																		FclQuotationBean quotation = vlist.get(i);
-																		int fclno = quotation.getFclno();
-																		FclBean fbean = fcl.getFcl(vlist.get(i).getNo());
+																for(int i=0; i<vlist.size();i++){
+																	LclQuotationBean quotation = vlist.get(i);
+																	int lclno = quotation.getLclno();
+																	//여기가 이미 저장되어있는 디비 (bean)
+																	//for문에서 리스트 돌릴때 
+																	//vlist.get(0).getNo() //인덱스 0 번의 리스트의 no
+																	//vlist.get(1).getNo() //인덱스 1 번의 리스트의 no
+																	LclBean lcl = lclMgr.getLcl(vlist.get(i).getNo());
 															%>
 															<tbody>
 																<tr>
 																	<td><%=quotation.getNo()%></td>
-																	<td><%=fbean.getItem()%></td>
-																	<td><%=fbean.getDeparture()%></td>
-																	<td><%=fbean.getArrive() %></td>
-																	<td><%=fbean.getIncoterms()%></td>
+																	<td><%=lcl.getItem() %></td>
+																	<td><%=lcl.getDeparture()%></td>
+																	<td><%=lcl.getArrive()%></td>
+																	<td><%=lcl.getIncoterms()%></td>
+																	<td><%=quotation.getDate()%></td>
 																	<td>
 																		<%
 																			switch(quotation.getState()){
-																				case "1":out.print("Waiting Quotation");break;
-																				case "2":out.print("Estimating in progress");break;
-																				case "3":out.print("Quotation calculation completed");break;
+																				case "1":out.print("Estimating in progress");break;
+																				case "2":out.print("Quotation calculation completed");break;
 																			}
 																		%>
 																	</td>
-																	<button name = "detail" method="post" class="btn theme-btn"
-																		onclick="location.href='fclReplyRead.jsp?no=<%=quotation.getNo()%>';">detail</button>
-																</tr>
+																	<td>
+																		<!-- mypage?no= 이건 get방식, 주소창에도 보이는 방식 => get 방식 -->
+																		<button name = "detail" method="post" class="btn theme-btn"
+																		onclick="location.href='lclReplyRead.jsp?no=<%=quotation.getNo()%>';">detail</button>
+																	</tr>
 															</tbody>
+																</tr>
 															<%						
-																		}//---for
-																	}//---if-else
+															  }//---for
+															}//---if-else
 															%>
 														</table>
-														<form name = "detail" method="post" action="../quote/boardFclRead.jsp">
-															<input type = "hidden" name="no">
-														</form>
 													</div>
 												</div>
 											</div>

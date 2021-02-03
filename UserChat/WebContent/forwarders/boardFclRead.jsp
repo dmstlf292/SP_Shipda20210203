@@ -14,6 +14,10 @@
 			response.sendRedirect("../user/login.jsp?url="+url);
 			return;//이후에 jsp 코드 실행 안됨.
 		}
+		String userID =null;
+		if(session.getAttribute("userID")!=null){
+			userID = (String) session.getAttribute("userID");
+		}
 		String nowPage = request.getParameter("nowPage");	
 		String noPerPage = request.getParameter("noPerPage");	
 		String keyField = request.getParameter("keyField");	
@@ -101,6 +105,21 @@
 						<%
 							if(id!=null){
 						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
 						<li class="br-right"><a href="../user/userLogout.jsp" ><i class="login-icon ti-user"></i>Logout</a></li>
 						<%}%>
 					</ul>
@@ -251,6 +270,7 @@
 									</div>
 									 <a href="javascript:list()" class="btn theme-btn">목록으로 돌아가기</a>
 									 <a href="fclReply.jsp?no=<%=no%>" class="btn theme-btn" >견적 참여하기</a>
+									 <input type="hidden" value="<%=userID%>" name="userID">
 								</div>
 							</div>
 						</div>

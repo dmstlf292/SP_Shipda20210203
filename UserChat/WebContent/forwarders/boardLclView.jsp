@@ -154,6 +154,21 @@
 						<%
 							if(id!=null){
 						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
 						<li class="br-right"><a href="../user/userLogout.jsp" ><i class="login-icon ti-user"></i>Logout</a></li>
 						<%}%>
 					</ul>

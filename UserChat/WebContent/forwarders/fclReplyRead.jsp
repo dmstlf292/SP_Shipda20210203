@@ -1,3 +1,4 @@
+<%@page import="forwarders.FclQuotationBean"%>
 <%@page import="member.UserDAO"%>
 <%@page import="fmember.ForwardersMemberMgr"%>
 <%@page import="quote.FclBean"%>
@@ -5,10 +6,13 @@
 <%@ page  contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="fcl" class="quote.FclMgr"/>
 <jsp:useBean id="fclbean" class="forwarders.FclQuotationBean"/>
+<jsp:useBean id="fclq" class="forwarders.FclQuotationMgr"/>
 <jsp:useBean id="mMgr" class="fmember.ForwardersMemberMgr"/>
+<!--java.lang.NumberFormatException: null :::1/sql구문 확인,    2/메소드확인,    3/확인메소드 출력,    4/빈즈 출력 -->
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String id = (String)session.getAttribute("idKey");
+		
 		int no = UtilMgr.parseInt(request, "no");	
 		if(id==null){
 			//현재 접속된 url값
@@ -20,13 +24,6 @@
 		if(request.getParameter("quotation.getNo()")!=null){
 			no = Integer.parseInt(request.getParameter("quotation.getNo()"));
 		}
-		
-		String userID =null;
-		if(session.getAttribute("userID")!=null){
-			userID = (String) session.getAttribute("userID");
-		}
-		
-		String userProfile = new UserDAO().getProfile(userID);
 		String nowPage = request.getParameter("nowPage");	
 		String noPerPage = request.getParameter("noPerPage");	
 		String keyField = request.getParameter("keyField");	
@@ -54,29 +51,35 @@
 		String client = fbean.getClient();
 		int volume = fbean.getVolume();
 		
-		int fclno = fclbean.getFclno();
-		int pickupRate = fclbean.getPickupRate();
-		int stuffingRate = fclbean.getStuffingRate();
-		int lashingRate = fclbean.getLashingRate();
-		int ofRate = fclbean.getOfRate();
-		int lssebs = fclbean.getLssebs();
-		int customsBrokerRate = fclbean.getCustomsBrokerRate();
-		int thcRate = fclbean.getThcRate();
-		int otherRate = fclbean.getOtherRate();
-		int amsRate = fclbean.getAmsRate();
-		int vgmRate = fclbean.getVgmRate();
-		int handlingRate = fclbean.getHandlingRate();
-		int won = fclbean.getWon();
-		int usd = fclbean.getUsd();
 		
 		
-		String remark = fclbean.getRemarks();
-		String oftype = fclbean.getOftype();
-		String carrier = fclbean.getCarrier();
-		String tt = fclbean.getTt();
-		String validity = fclbean.getValidity();
-		String date = fclbean.getDate();
-		String state = fclbean.getState();
+		FclQuotationBean fclqBean = fclq.getFclQuotationeDetail(no);
+		int fclno = fclqBean.getFclno();
+		int pickupRate = fclqBean.getPickupRate();
+		int stuffingRate = fclqBean.getStuffingRate();
+		int lashingRate = fclqBean.getLashingRate();
+		int ofRate = fclqBean.getOfRate();
+		int lssebs = fclqBean.getLssebs();
+		int customsBrokerRate = fclqBean.getCustomsBrokerRate();
+		int thcRate = fclqBean.getThcRate();
+		int otherRate = fclqBean.getOtherRate();
+		int amsRate = fclqBean.getAmsRate();
+		int vgmRate = fclqBean.getVgmRate();
+		int handlingRate = fclqBean.getHandlingRate();
+		int won = fclqBean.getWon();
+		int usd = fclqBean.getUsd();
+		String remark = fclqBean.getRemarks();
+		String oftype = fclqBean.getOftype();
+		String carrier = fclqBean.getCarrier();
+		String tt = fclqBean.getTt();
+		String validity = fclqBean.getValidity();
+		String date = fclqBean.getDate();
+		String state = fclqBean.getState();
+		
+		//콘솔창에 bean 찍어보기
+		System.out.println("출력테스트 문자"+remark);
+		System.out.println("출력테스트 숫자"+pickupRate);
+		
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,7 +142,7 @@
 										<div class="col-menu col-md-3">
 											<div class="content">
 												<ul class="menu-col">
-													<li><a href="../forwarders/mypage.jsp">My Page</a></li>
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
 												</ul>
 											</div>
 										</div>
@@ -161,10 +164,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		<form method="post" action="fclReplyProc.jsp">
 		<section class="gray-bg">
 			<div class="container">
 				<div class="row">
@@ -176,8 +175,6 @@
 							<div role="tabpanel" class="tab-pane fade in active" id="User">
 								<div class="simple-accordion">
 									<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-										
-										
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="title1">
 												<h4 class="panel-title">
@@ -228,7 +225,7 @@
 															<p>STUFFING : </p>
 															<p>LASHING : </p>
 															<p>OCEAN FREIGHT</p>
-															<p><input type="text"  class="form-control" name="oftype" value="<%=fclbean.getOftype()%>" readonly></p>
+															<p><input type="text"  class="form-control" name="oftype" value="<%=fclqBean.getOftype()%>" readonly></p>
 															<p>CUSTOMS</p>
 															<p>LOCAL CHARGE</p>
 															<p>HANDLING</p>
@@ -251,28 +248,28 @@
 														<p>
 															<label>RATE</label>
 														</p>
-														<p><input type="text" class="form-control" name="pickupRate" value="<%=fclbean.getPickupRate() %>" readonly></p>
-														<p><input type="text" class="form-control" name="stuffingRate" value="<%=fclbean.getStuffingRate() %>"  readonly></p>
-														<p><input type="text" class="form-control" name="lashingRate"  value="<%=fclbean.getLashingRate()%>"  readonly></p>
-														<p><input type="text" class="form-control" name="ofRate" value="<%=fclbean.getOfRate() %>"  readonly></p>
-														<p><input type="text" class="form-control" name="lssebs" value="<%=fclbean.getLssebs() %>"  readonly></p>
-														<p><input type="text" class="form-control" name="customsBrokerRate" value="<%=fclbean.getCustomsBrokerRate() %>" readonly></p>
-														<p><input type="text" class="form-control" name="thcRate" value="<%=fclbean.getThcRate() %>" readonly></p>
-														<p><input type="text" class="form-control" name="otherRate" value="<%=fclbean.getOtherRate()%>"  readonly></p>
-														<p><input type="text" class="form-control" name="amsRate" value="<%=fclbean.getAmsRate() %>"  readonly></p>
-														<p><input type="text" class="form-control" name="vgmRate" value="<%=fclbean.getVgmRate()%>" readonly></p>
-														<p><input type="text" class="form-control" name="handlingRate" value="<%=fclbean.getHandlingRate()%>"  readonly></p>
+														<p><input type="text" class="form-control" name="pickupRate" value="<%=fclqBean.getPickupRate() %>" readonly></p>
+														<p><input type="text" class="form-control" name="stuffingRate" value="<%=fclqBean.getStuffingRate() %>"  readonly></p>
+														<p><input type="text" class="form-control" name="lashingRate"  value="<%=fclqBean.getLashingRate()%>"  readonly></p>
+														<p><input type="text" class="form-control" name="ofRate" value="<%=fclqBean.getOfRate() %>"  readonly></p>
+														<p><input type="text" class="form-control" name="lssebs" value="<%=fclqBean.getLssebs() %>"  readonly></p>
+														<p><input type="text" class="form-control" name="customsBrokerRate" value="<%=fclqBean.getCustomsBrokerRate() %>" readonly></p>
+														<p><input type="text" class="form-control" name="thcRate" value="<%=fclqBean.getThcRate() %>" readonly></p>
+														<p><input type="text" class="form-control" name="otherRate" value="<%=fclqBean.getOtherRate()%>"  readonly></p>
+														<p><input type="text" class="form-control" name="amsRate" value="<%=fclqBean.getAmsRate() %>"  readonly></p>
+														<p><input type="text" class="form-control" name="vgmRate" value="<%=fclqBean.getVgmRate()%>" readonly></p>
+														<p><input type="text" class="form-control" name="handlingRate" value="<%=fclqBean.getHandlingRate()%>"  readonly></p>
 														<p><input type="hidden" class="form-control" name="no" value="<%=no%>"></p>
 													
 													</div>
 													<div class="col-md-4">
 														<p><label>Unit / Remarks</label></p>
-														<p><input type="text" class="form-control"  value="<%=fclbean.getRemarks() %>" readonly></p>
+														<p><input type="text" class="form-control"  value="<%=fclqBean.getRemarks() %>" readonly></p>
 														<p><input type="text" class="form-control"  value="PER CNTR" readonly></p>
 														<p><input type="text" class="form-control"  value="PER CNTR" readonly></p>
 														<p><input type="text" class="form-control"  value="PER <%=fbean.getCsize()%>" readonly></p>
 														<p><input type="text" class="form-control"  value="PER <%=fbean.getCsize()%>" readonly></p>
-														<p><input type="text" class="form-control"  value="<%=fclbean.getCustomsBrokerRate() %>" readonly></p>
+														<p><input type="text" class="form-control"  value="<%=fclqBean.getCustomsBrokerRate() %>" readonly></p>
 														<p><input type="text" class="form-control"  value="PER CNTR" readonly></p>
 														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
 														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
@@ -299,26 +296,26 @@
 															<p><label>VALIDITY : </label></p>
 													 </div>	
 													 <div class="col-md-6">
-															<p><input type="text" class="form-control"  name ="carrier" value="<%=fclbean.getCarrier() %>" readonly></p>
-															<p><input type="text" class="form-control" name ="tt" value="<%=fclbean.getTt() %>"  readonly></p>
-															<p><input type="text" class="form-control" name ="validity" value="<%=fclbean.getValidity() %>" readonly></p>
+															<p><input type="text" class="form-control"  name ="carrier" value="<%=fclqBean.getCarrier() %>" readonly></p>
+															<p><input type="text" class="form-control" name ="tt" value="<%=fclqBean.getTt() %>"  readonly></p>
+															<p><input type="text" class="form-control" name ="validity" value="<%=fclqBean.getValidity() %>" readonly></p>
 													 </div>	
 												</div>
 											</div>
 											<div id="col4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="title4">
 												<div class="panel-body">
 													 <div class="col-md-6">
-															<p><label>TOTAL USD: <%=fclbean.getUsd() %> USD</label></p>
-															<p><label>TOTAL WON :<%=fclbean.getWon() %> WON</label></p>
+															<p><label>TOTAL USD: <%=fclqBean.getUsd() %> USD</label></p>
+															<p><label>TOTAL WON :<%=fclqBean.getWon() %> WON</label></p>
 													 </div>	
 												</div>
 											</div>
-											<p><input type="text"  class="form-control" name="state" value="<%=fclbean.getState()%>" readonly></p>
+											<p><input type="text"  class="form-control" name="state" value="<%=fclqBean.getState()%>" readonly></p>
 										</div>
 									</div>
 									</br>
 									<div align="right">
-										<h4><a class="collapsed" >TOTAL USD : <%=fclbean.getUsd() %> USD (<%=fclbean.getWon()%> WON)</a></h4>
+										<h4><a class="collapsed" >TOTAL USD : <%=fclqBean.getUsd() %> USD (<%=fclqBean.getWon()%> WON)</a></h4>
 									</div>
 									</br>
 									 <button type="submit" class="btn theme-btn">견적 제출하기</button>
@@ -330,7 +327,6 @@
 				</div>
 			</div>
 		</section>
-		</form>
 		
 		<form name="listFrm">
 			<input type="hidden" name="nowPage" value="<%=nowPage%>">

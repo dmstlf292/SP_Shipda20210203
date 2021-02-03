@@ -1,3 +1,4 @@
+<%@page import="forwarders.LclQuotationBean"%>
 <%@page import="quote.LclBean"%>
 <%@page import="member.UserDAO"%>
 <%@page import="fmember.ForwardersMemberMgr"%>
@@ -5,6 +6,7 @@
 <%@ page  contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="lcl" class="quote.LclMgr"/>
 <jsp:useBean id="lclbean" class="forwarders.LclQuotationBean"/>
+<jsp:useBean id="lclq" class="forwarders.LclQuotationMgr"/>
 <jsp:useBean id="mMgr" class="fmember.ForwardersMemberMgr"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
@@ -56,23 +58,24 @@
 		int totalCBM=0;
 		totalCBM=(width*llength*height)*packageCount;
 		
-		int lclno = lclbean.getLclno();
-		int pickupRate = lclbean.getPickupRate();
-		int ofRate = lclbean.getOfRate();
-		int customsBrokerRate = lclbean.getCustomsBrokerRate();
-		int blDocRate = lclbean.getBlDocRate();
-		int consolThcRate = lclbean.getConsolThcRate();
-		int portTransferRate = lclbean.getPortTransferRate();
-		int vgmRate = lclbean.getVgmRate();
-		int amsHandlingRate = lclbean.getAmsHandlingRate();
 		
-		String remarks = lclbean.getRemarks();
-		String oftype = lclbean.getOftype();
-		String carrier = lclbean.getCarrier();
-		String tt = lclbean.getTt();
-		String validity = lclbean.getValidity();
-		String date = lclbean.getDate();
-		String state = lclbean.getState();
+		LclQuotationBean lclqBean = lclq.getLclQuotationDetail(no);
+		int lclno = lclqBean.getLclno();
+		int pickupRate = lclqBean.getPickupRate();
+		int ofRate = lclqBean.getOfRate();
+		int customsBrokerRate = lclqBean.getCustomsBrokerRate();
+		int blDocRate = lclqBean.getBlDocRate();
+		int consolThcRate = lclqBean.getConsolThcRate();
+		int portTransferRate = lclqBean.getPortTransferRate();
+		int vgmRate = lclqBean.getVgmRate();
+		int amsHandlingRate = lclqBean.getAmsHandlingRate();
+		String remarks = lclqBean.getRemarks();
+		String oftype = lclqBean.getOftype();
+		String carrier = lclqBean.getCarrier();
+		String tt = lclqBean.getTt();
+		String validity = lclqBean.getValidity();
+		String date = lclqBean.getDate();
+		String state = lclqBean.getState();
 		
 %>
 <!DOCTYPE html>
@@ -231,19 +234,19 @@
 														<p>
 															<label>RATE</label>
 														</p>
-														<p><input type="text" class="form-control"  name="pickupRate" value="<%=lclbean.getPickupRate() %>"  readonly></p>
-														<p><input type="text" class="form-control"  name="ofRate"  value="<%=lclbean.getOfRate()%>"readonly></p>
-														<p><input type="text" class="form-control"  name="customsBrokerRate" value="<%=lclbean.getCustomsBrokerRate() %>" readonly></p>
-														<p><input type="text" class="form-control"  name="blDocRate" value="<%=lclbean.getBlDocRate() %>" readonly></p>
-														<p><input type="text" class="form-control"  name="consolThcRate" value="<%=lclbean.getConsolThcRate() %>" readonly></p>
-														<p><input type="text" class="form-control"  name="portTransferRate" value="<%=lclbean.getPortTransferRate()  %>" readonly></p>
-														<p><input type="text" class="form-control"  name="vgmRate" value="<%=lclbean.getVgmRate()%>" readonly></p>
-														<p><input type="text" class="form-control"  name="amsHandlingRate" value="<%=lclbean.getAmsHandlingRate() %>" readonly></p>
+														<p><input type="text" class="form-control"  name="pickupRate" value="<%=lclqBean.getPickupRate() %>"  readonly></p>
+														<p><input type="text" class="form-control"  name="ofRate"  value="<%=lclqBean.getOfRate()%>"readonly></p>
+														<p><input type="text" class="form-control"  name="customsBrokerRate" value="<%=lclqBean.getCustomsBrokerRate() %>" readonly></p>
+														<p><input type="text" class="form-control"  name="blDocRate" value="<%=lclqBean.getBlDocRate() %>" readonly></p>
+														<p><input type="text" class="form-control"  name="consolThcRate" value="<%=lclqBean.getConsolThcRate() %>" readonly></p>
+														<p><input type="text" class="form-control"  name="portTransferRate" value="<%=lclqBean.getPortTransferRate()  %>" readonly></p>
+														<p><input type="text" class="form-control"  name="vgmRate" value="<%=lclqBean.getVgmRate()%>" readonly></p>
+														<p><input type="text" class="form-control"  name="amsHandlingRate" value="<%=lclqBean.getAmsHandlingRate() %>" readonly></p>
 														<p><input type="hidden" class="form-control"  name="no" value="<%=no%>" readonly></p>
 													</div>
 													<div class="col-md-4">
 														<p><label>Unit / Remarks</label></p>
-														<p><input type="text" class="form-control"  name="remarks" value="<%=lclbean.getRemarks() %>" readonly></p>
+														<p><input type="text" class="form-control"  name="remarks" value="<%=lclqBean.getRemarks() %>" readonly></p>
 														<p><input type="text" class="form-control"  value="PER W/M (MIN:<%=lbean.getCbmCal()%>CBM)" readonly></p>
 														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
 														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
@@ -271,9 +274,9 @@
 															<p><label>VALIDITY : </label></p>
 													 </div>	
 													 <div class="col-md-6">
-															<p><input type="text" class="form-control"  name ="carrier" value="<%=lclbean.getCarrier() %>" readonly></p>
-															<p><input type="text" class="form-control" name ="tt" value="<%=lclbean.getTt() %>" readonly></p>
-															<p><input type="text" class="form-control" name ="validity"  value="<%=lclbean.getValidity() %>" readonly></p>
+															<p><input type="text" class="form-control"  name ="carrier" value="<%=lclqBean.getCarrier() %>" readonly></p>
+															<p><input type="text" class="form-control" name ="tt" value="<%=lclqBean.getTt() %>" readonly></p>
+															<p><input type="text" class="form-control" name ="validity"  value="<%=lclqBean.getValidity() %>" readonly></p>
 													 </div>	
 												</div>
 											</div>
@@ -287,7 +290,7 @@
 									</div>
 									</br>
 									<div align="right">
-										<h4><a class="collapsed" >TOTAL USD : <%=lclbean.getUsd() %> USD (<%=lclbean.getWon()%> WON)</a></h4>
+										<h4><a class="collapsed" >TOTAL USD : <%=lclqBean.getUsd() %> USD (<%=lclqBean.getWon()%> WON)</a></h4>
 									</div>
 									</br>
 									 <button type="submit" class="btn theme-btn">견적 제출하기</button>

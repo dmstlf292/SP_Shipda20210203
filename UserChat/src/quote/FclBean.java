@@ -14,19 +14,22 @@ public class FclBean {
 	private String item;
 	private String ctype;
 	private String csize;
-	
-	private int volume;
 	private String danger;
 	private String lss;
 	private String surcharge;
 	private String extra;
-	private String client;
-	private int pos;
-	private int ref;
-	private int depth;
 	private String regdate;
-	private String pass;
+	
+	
+	private int ref;
+	private int pos;
+	private int depth;
 	private int count;
+	private String client;
+	private int volume;
+	private String userID;
+	
+	
 	public int getNo() {
 		return no;
 	}
@@ -105,12 +108,6 @@ public class FclBean {
 	public void setCsize(String csize) {
 		this.csize = csize;
 	}
-	public int getVolume() {
-		return volume;
-	}
-	public void setVolume(int volume) {
-		this.volume = volume;
-	}
 	public String getDanger() {
 		return danger;
 	}
@@ -135,17 +132,11 @@ public class FclBean {
 	public void setExtra(String extra) {
 		this.extra = extra;
 	}
-	public String getClient() {
-		return client;
+	public String getRegdate() {
+		return regdate;
 	}
-	public void setClient(String client) {
-		this.client = client;
-	}
-	public int getPos() {
-		return pos;
-	}
-	public void setPos(int pos) {
-		this.pos = pos;
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
 	}
 	public int getRef() {
 		return ref;
@@ -153,23 +144,17 @@ public class FclBean {
 	public void setRef(int ref) {
 		this.ref = ref;
 	}
+	public int getPos() {
+		return pos;
+	}
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
 	public int getDepth() {
 		return depth;
 	}
 	public void setDepth(int depth) {
 		this.depth = depth;
-	}
-	public String getRegdate() {
-		return regdate;
-	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
-	}
-	public String getPass() {
-		return pass;
-	}
-	public void setPass(String pass) {
-		this.pass = pass;
 	}
 	public int getCount() {
 		return count;
@@ -177,6 +162,26 @@ public class FclBean {
 	public void setCount(int count) {
 		this.count = count;
 	}
+	public String getClient() {
+		return client;
+	}
+	public void setClient(String client) {
+		this.client = client;
+	}
+	public int getVolume() {
+		return volume;
+	}
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+	
+	
 	
 	
 	

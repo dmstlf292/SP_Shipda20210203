@@ -23,7 +23,7 @@ public class LclQuotationBean {
 	private String validity;
 	private String date;
 	private String state;
-	private String userID;
+	private String id;
 	public int getLclno() {
 		return lclno;
 	}
@@ -138,11 +138,11 @@ public class LclQuotationBean {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getUserID() {
-		return userID;
+	public String getId() {
+		return id;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

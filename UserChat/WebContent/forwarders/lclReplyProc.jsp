@@ -7,11 +7,12 @@
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String flag = request.getParameter("flag");
-		int pickupRate = Integer.parseInt(request.getParameter("pickupRate"));
 		String no = request.getParameter("no");
 		
+		int pickupRate = Integer.parseInt(request.getParameter("pickupRate"));
 		System.out.println("proc체크:"+no);
 		System.out.println("출력테스트1"+pickupRate);
+	
 		lqbean.setPickupRate(pickupRate);
 		
 		System.out.println("bean값 체크"+lqbean.getPickupRate());	
@@ -24,7 +25,7 @@
 		if(result){
 			msg="등록성공";
 			//여기 뒤에 no 추가
-			url="mypage.jsp?no="+no;
+			url="mypageLcl.jsp?no="+no;
 		}
 
 %>

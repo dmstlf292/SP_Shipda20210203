@@ -23,7 +23,7 @@ public class FclQuotationMgr {
 		boolean flag = false;
 		try {
 			con = pool.getConnection();
-			sql = "insert fclQuotation(no,pickupRate,stuffingRate,lashingRate,ofRate,lssebs,customsBrokerRate,thcRate,otherRate,amsRate,vgmRate,handlingRate,won,usd,       remarks,oftype,carrier,tt,validity,date,state,userID) "
+			sql = "insert fclQuotation(no,pickupRate,stuffingRate,lashingRate,ofRate,lssebs,customsBrokerRate,thcRate,otherRate,amsRate,vgmRate,handlingRate,won,usd,       remarks,oftype,carrier,tt,validity,date,state,id) "
 					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?     ,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, fclq.getNo());//해봐 손땔게내가함?
@@ -49,7 +49,7 @@ public class FclQuotationMgr {
 			pstmt.setString(19, fclq.getValidity());
 			pstmt.setString(20, UtilMgr.getDay());
 			pstmt.setString(21, "1");
-			pstmt.setString(22, fclq.getUserID());
+			pstmt.setString(22, fclq.getId());
 			if(pstmt.executeUpdate()==1) flag = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,7 +60,7 @@ public class FclQuotationMgr {
 	}
 	
 	//Detail
-	public FclQuotationBean getFclQuotationeDetail(int fclno) {
+	public FclQuotationBean getFclQuotationeDetail(int no) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -68,9 +68,10 @@ public class FclQuotationMgr {
 		FclQuotationBean quotation = new FclQuotationBean();
 		try {
 			con = pool.getConnection();
-			sql = "select * from fclQuotation where fclno=?";
+			//fclno =? 말고 외래키 no=? 라고 설정//
+			sql = "select * from fclQuotation where no=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, fclno);
+			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				quotation.setFclno(rs.getInt("fclno"));
@@ -97,7 +98,7 @@ public class FclQuotationMgr {
 				quotation.setValidity(rs.getString("validity"));
 				quotation.setDate(rs.getString("date"));
 				quotation.setState(rs.getString("state"));
-				quotation.setUserID(rs.getString("userID"));
+				quotation.setId(rs.getString("id"));
 				
 			}
 		} catch (Exception e) {
@@ -146,7 +147,7 @@ public class FclQuotationMgr {
 				quotation.setValidity(rs.getString("validity"));
 				quotation.setDate(rs.getString("date"));
 				quotation.setState(rs.getString("state"));
-				quotation.setUserID(rs.getString("userID"));
+				quotation.setId(rs.getString("id"));
 				vlist.addElement(quotation);
 			}
 
@@ -195,7 +196,7 @@ public class FclQuotationMgr {
 				quotation.setValidity(rs.getString("validity"));
 				quotation.setDate(rs.getString("date"));
 				quotation.setState(rs.getString("state"));
-				quotation.setUserID(rs.getString("userID"));
+				quotation.setId(rs.getString("id"));
 				vlist.addElement(quotation);
 			}
 

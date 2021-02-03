@@ -110,6 +110,21 @@
 						<%
 							if(id!=null){
 						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
 						<li class="br-right"><a href="../user/userLogout.jsp" ><i class="login-icon ti-user"></i>Logout</a></li>
 						<%}%>
 					</ul>
@@ -128,21 +143,13 @@
 			<div class="container">
 				<div class="row">
 					<div class="simple-tab-style">
-						<!-- Nav tabs -->
 						<ul class="nav nav-tabs" role="tablist">
 							<li role="presentation" class="active"><a href="#User" aria-controls="home" role="tab" data-toggle="tab"><i class="ti-user"></i>실시간 견적조회 디테일</a></li>
 						</ul>
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane fade in active" id="User">
-								
-								
-								
-								
-							  <form name="regFrm" method="post" action="boardLclProc.jsp">
 								<div class="simple-accordion">
 									<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-										
-										
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="title1">
 												<h4 class="panel-title">
@@ -192,14 +199,6 @@
 												</div>
 											</div>
 										</div>
-										
-										
-										
-										
-										
-										
-										
-										
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="title2">
 												<h4 class="panel-title">
@@ -268,9 +267,6 @@
 												</div>
 											</div>
 										</div>
-										
-										
-										
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="title3">
 												<h4 class="panel-title">
@@ -323,13 +319,10 @@
 												</div>
 											</div>
 										</div>
-										
-										
 									</div>
 									 <a href="lclReply.jsp?no=<%=no%>" class="btn theme-btn" >견적 참여하기</a>
 									 <a href="javascript:list()" class="btn theme-btn">목록으로 돌아가기</a>
 								</div>
-								</form>
 							</div>
 						</div>
 					</div>

@@ -4,11 +4,11 @@
 <jsp:useBean id="lcl" class="quote.LclMgr"/>
 <%
 		request.setCharacterEncoding("EUC-KR"); 
-		int width = 0;
-		int llength = 0;
-		int height = 0;
+		float width = 0;
+		float llength = 0;
+		float height = 0;
 		int packageCount=0;
-		int totalCBM = (width*llength*height)*packageCount;
+		float totalCBM = (width*llength*height)*packageCount;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +19,7 @@
     <title>디지털 수입물류 포워딩 Ship-da</title>
 	<link rel="stylesheet" href="assets/plugins/css/plugins.css">	
     <link href="assets/css/style.css" rel="stylesheet">
-	<link href="assets/css/responsiveness.css" rel="stylesheet">
+	<link href="atkfkdssets/css/responsiveness.css" rel="stylesheet">
 	<link id="jssDefault" rel="stylesheet" href="assets/css/skins/default.css">
 	</head>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -181,17 +181,17 @@
 														<p>
 															<!-- 이거필요 -->
 															<label>가로</label>
-															<input type="number" maxlength="255" class="form-control" placeholder="mm로 숫자만 입력하세요"  name="width" id="width" required>
+															<input type="number" maxlength="255" class="form-control" placeholder="MM로 숫자만 입력하세요"  name="width" id="width" required>
 														</p>
 														<p>
 															<!-- 이거필요 -->
 															<label>세로</label>
-															<input type="number" maxlength="255" class="form-control" placeholder="mm로 숫자만 입력하세요"  name="llength" id="llength" required>
+															<input type="number" maxlength="255" class="form-control" placeholder="MM로 숫자만 입력하세요"  name="llength" id="llength" required>
 														</p>
 														<p>
 															<!-- 이거필요 -->
 															<label>높이</label>
-															<input type="number" maxlength="255" class="form-control" placeholder="mm로 숫자만 입력하세요"  name="height" id="height" required>
+															<input type="number" maxlength="255" class="form-control" placeholder="MM로 숫자만 입력하세요"  name="height" id="height" required>
 														</p>
 													</div>
 													<div class="col-md-3">
@@ -339,6 +339,7 @@
 										
 									</div>
 									 <input type="submit" value="등록" class="btn theme-btn"> 
+									 <input type="hidden" value="<%=userID%>" name="userID"> 
 								</div>
 								</form>
 								
