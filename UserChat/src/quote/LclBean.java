@@ -28,12 +28,12 @@ public class LclBean {
 	private int pos;
 	private int depth;
 	private int count;
-	private float width;
-	private float llength;
-	private float height;
+	private int width;
+	private int llength;
+	private int height;
 	private int volume;
 	private int packageCount;
-	private float cbmCal;
+	private int cbmCal;
 	private String userID;
 	public int getNo() {
 		return no;
@@ -185,22 +185,22 @@ public class LclBean {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public float getWidth() {
+	public int getWidth() {
 		return width;
 	}
-	public void setWidth(float width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
-	public float getLlength() {
+	public int getLlength() {
 		return llength;
 	}
-	public void setLlength(float llength) {
+	public void setLlength(int llength) {
 		this.llength = llength;
 	}
-	public float getHeight() {
+	public int getHeight() {
 		return height;
 	}
-	public void setHeight(float height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 	public int getVolume() {
@@ -215,10 +215,10 @@ public class LclBean {
 	public void setPackageCount(int packageCount) {
 		this.packageCount = packageCount;
 	}
-	public float getCbmCal() {
+	public int getCbmCal() {
 		return cbmCal;
 	}
-	public void setCbmCal(float cbmCal) {
+	public void setCbmCal(int cbmCal) {
 		this.cbmCal = cbmCal;
 	}
 	public String getUserID() {

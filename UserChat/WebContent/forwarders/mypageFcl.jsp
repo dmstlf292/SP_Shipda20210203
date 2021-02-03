@@ -3,21 +3,11 @@
 <%@page import="forwarders.FclQuotationBean"%>
 <%@page import="java.util.Vector"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<jsp:useBean id="quotationMgr" class="forwarders.FclQuotationMgr"/>
+<jsp:useBean id="fclq" class="forwarders.FclQuotationMgr"/>
 <jsp:useBean id="fclMgr" class="quote.FclMgr"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String id = (String)session.getAttribute("idKey");
-		if(id==null){
-			//현재 접속된 url값
-			StringBuffer url = request.getRequestURL();
-			response.sendRedirect("../user/login.jsp?url="+url);
-			return;//이후에 jsp 코드 실행 안됨.
-		}
-		String userID =null;
-		if(session.getAttribute("userID")!=null){
-			userID = (String) session.getAttribute("userID");
-		}
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,7 +137,8 @@
 																</tr>
 															</thead>
 															<%
-																Vector<FclQuotationBean> vlist = quotationMgr.getFclQuotationList();
+																Vector<FclQuotationBean> vlist = fclq.getFclQuotationList(id);
+																//out.println(vlist.size());
 																if(vlist.isEmpty()){
 															%>
 															<tr>

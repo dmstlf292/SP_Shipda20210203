@@ -1,4 +1,3 @@
-<%@page import="java.net.URLDecoder"%>
 <%@ page  contentType="text/html; charset=EUC-KR" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -10,10 +9,21 @@
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/custom.css">
 	<title>Ship-Da 포워딩 회사 전용</title>
+	<script type="text/javascript">
+		function idCheck(id) {
+			if(id==""){
+				alert("아이디를 입력하세요.");
+				document.regFrm.id.focus();
+				return;//이후에 코드를 실행이 안됨. 함수를 빠져나감.
+			}
+			url = "idCheck.jsp?id="+id;
+			window.open(url,"ID중복체크","width=300,height=150");
+		}
+	</script>
 </head>
-<body>
+<body onLoad="regFrm.id.focus()">
 	<div class="container">
-		<form method="post" action="userRegisterAction.jsp">
+		<form name="regFrm"  method="post" action="memberProc.jsp">
 			<table class="table table-bordered table-hover" style="margin : 200px 30px 0 0; text-align:center; border: 1px solid #dddddd">
 				<thead>
 					<tr>
@@ -23,16 +33,21 @@
 				<tbody>
 					<tr>
 						<td style="width:110px;"><h5>아이디</h5></td>
-						<td><input class="form-control" type="text" id="id" name="id" maxlength="20" placeholder="입력하세요"></td>
+						<td><input class="form-control" type="text"  name="id" type="text" maxlength="20" placeholder="입력하세요"></td>
 						
 					</tr>
 					<tr>
 						<td style="width:110px;"><h5>비밀번호</h5></td>
-						<td colspan="2"><input onkeyup="passwordCheckFunction();" class="form-control" id="userPassword" name="userPassword" type="password" maxlength="20" placeholder="입력하세요"></td>
+						<td colspan="2"><input  class="form-control" name="password" type="password" maxlength="20" placeholder="입력하세요"></td>
+					</tr>
+					<tr>
+					<tr>
+						<td style="width:110px;"><h5>이름</h5></td>
+						<td colspan="2"><input  class="form-control" name="name" type="text" maxlength="20" placeholder="입력하세요"></td>
 					</tr>
 					<tr>
 						<td style="width:110px;"><h5>이메일</h5></td>
-						<td colspan="2"><input o class="form-control" id="userEmail" name="userEmail" type="email" maxlength="64" placeholder="입력하세요"></td>
+						<td colspan="2"><input class="form-control"  name="email" type="email" maxlength="64" placeholder="입력하세요"></td>
 					</tr>
 					<tr>
 						<td style="text-align:left;" colspan="3">

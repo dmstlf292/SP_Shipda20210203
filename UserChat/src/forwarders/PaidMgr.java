@@ -13,23 +13,25 @@ public class PaidMgr {//apply_num값 & paid_amount값을 DB에 연동
 		pool = DBConnectionMgr.getInstance();
 	}
 	//Paid Amount Insert
-	public void insertPaid(PaidBean paid) {
+	public boolean insertPaid(PaidBean paid) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
+		boolean flag = false;
 		try {
 			con = pool.getConnection();
-			sql = "insert tblPaid(apply_num) values(?)";
+			sql = "insert paid(apply_num,paid_amount) values(?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, paid.getApply_num());
-			pstmt.executeUpdate();
+			pstmt.setInt(2, paid.getPaid_amount());
+			if(pstmt.executeUpdate()==1) flag = true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(con, pstmt);
 		}
-		return;
+		return flag;
 	}
 	
 	//Paid All List - admin mode
@@ -41,7 +43,7 @@ public class PaidMgr {//apply_num값 & paid_amount값을 DB에 연동
 		Vector<PaidBean> vlist= new Vector<PaidBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from tblPaid order by apply_num desc";
+			sql = "select * from paid order by apply_num desc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -69,7 +71,7 @@ public class PaidMgr {//apply_num값 & paid_amount값을 DB에 연동
 		PaidBean paid = new PaidBean();
 		try {
 			con = pool.getConnection();
-			sql = "select * from tblPaid where apply_num=?";
+			sql = "select * from paid where apply_num=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, apply_num);
 			rs = pstmt.executeQuery();

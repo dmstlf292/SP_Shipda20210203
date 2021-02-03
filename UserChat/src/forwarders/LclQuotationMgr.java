@@ -101,7 +101,7 @@ public class LclQuotationMgr {
 	}
 	
 	//list(사용자용)
-	public Vector<LclQuotationBean> getLclQuotationList(String userID){
+	public Vector<LclQuotationBean> getLclQuotationList(String id){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -109,9 +109,9 @@ public class LclQuotationMgr {
 		Vector<LclQuotationBean> vlist= new Vector<LclQuotationBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from lclQuotation where userID=?";
+			sql = "select * from lclQuotation where id=?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, userID);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				LclQuotationBean quotation = new LclQuotationBean();

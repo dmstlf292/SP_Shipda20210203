@@ -1,12 +1,22 @@
+<%@page import="forwarders.MonthBean"%>
+<%@page import="fmember.ForwardersMemberBean"%>
 <%@page import="forwarders.PaidBean"%>
 <%@page import="forwarders.UtilMgr"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <jsp:useBean id="pMgr" class="forwarders.PaidMgr"/>
 <jsp:useBean id="mMgr" class="fmember.ForwardersMemberMgr"/>
-<%
-     String name = (String)request.getParameter("name");
-     String email = (String)request.getParameter("email");
-     String stotalPrice = (String)request.getParameter("totalPrice");
+<jsp:useBean id="mBean" class="fmember.ForwardersMemberBean"/>
+<jsp:useBean id="paMgr" class="forwarders.PaidMgr"/>
+<jsp:useBean id="month" class="forwarders.MonthMgr"/>
+<%     
+  		request.setCharacterEncoding("EUC-KR");
+		String id = (String)session.getAttribute("idKey");
+		ForwardersMemberBean fbean = mMgr.getMember(id);
+		String name = mBean.getName();
+		String email = mBean.getEmail();
+		String sprice = (String)request.getParameter("price");
+		int price = Integer.parseInt(sprice);
+	 
 %>
 <!-- PG사 이니식스 & 카카오페이 : 일반결제용 사이트 코드 TC0ONETIME /////    가맹점 식별코드 imp31381830 -->
 <!DOCTYPE html>
@@ -28,6 +38,11 @@
             pg : 'inicis',
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
+            name : 'SHIPDA Payment',
+            amount : <%=price%>,
+            buyer_email : '<%=fbean.getEmail()%>',
+            buyer_name : '<%=fbean.getName()%>',
+            buyer_postcode : '123-456',
         }, function(rsp) {
             if (rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -60,7 +75,7 @@
                 msg += '에러내용 : ' + rsp.error_msg;
                 alert(msg);
                 //실패시 이동할 페이지
-                location.href="<%=request.getContextPath()%>/forwarders/pricing.jsp";
+                location.href="<%=request.getContextPath()%>/forwarders/paymentMethod.jsp";
             }
         });
     });

@@ -12,6 +12,7 @@
 		String no = request.getParameter("no");
 		System.out.println("proc체크:"+no);
 		System.out.println("출력테스트1"+pickupRate);
+		
 		//빈에 담겨있는 PickupRate 값을 세팅해서, get으로 가져오기
 		fqbean.setPickupRate(pickupRate);
 		System.out.println("bean값 체크"+fqbean.getPickupRate());	
@@ -25,7 +26,10 @@
 			msg="등록성공";
 			url="mypageFcl.jsp?no="+no;
 		}
-
+		//usd 출력테스트
+		String getUsd=request.getParameter("usd");
+		System.out.println("usd출력테스트 :" + fqbean.getUsd());//0으로 뜬다.
+		
 %>
 <script>
 	alert("<%=msg%>");

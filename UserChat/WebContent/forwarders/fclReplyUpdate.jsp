@@ -1,22 +1,19 @@
-<%@page import="quote.LclBean"%>
+<%@page import="forwarders.FclQuotationBean"%>
 <%@page import="member.UserDAO"%>
 <%@page import="fmember.ForwardersMemberMgr"%>
+<%@page import="quote.FclBean"%>
 <%@page import="quote.UtilMgr"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<jsp:useBean id="lcl" class="quote.LclMgr"/>
-<jsp:useBean id="lclbean" class="forwarders.LclQuotationBean"/>
+<jsp:useBean id="fcl" class="quote.FclMgr"/>
+<jsp:useBean id="fclbean" class="forwarders.FclQuotationBean"/>
+<jsp:useBean id="fclq" class="forwarders.FclQuotationMgr"/>
 <jsp:useBean id="mMgr" class="fmember.ForwardersMemberMgr"/>
+<!--java.lang.NumberFormatException: null :::1/sql구문 확인,    2/메소드확인,    3/확인메소드 출력,    4/빈즈 출력 -->
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String id = (String)session.getAttribute("idKey");
+		
 		int no = UtilMgr.parseInt(request, "no");	
-		System.out.println("jsp체크:"+no);
-		if(id==null){
-			//현재 접속된 url값
-			StringBuffer url = request.getRequestURL();
-			response.sendRedirect("../user/login.jsp?url="+url);
-			return;//이후에 jsp 코드 실행 안됨.
-		}
 		//여길 손봤음!!!!중요!!!!! + 유효성검사(해도 되고 안해도 되고)
 		if(request.getParameter("quotation.getNo()")!=null){
 			no = Integer.parseInt(request.getParameter("quotation.getNo()"));
@@ -26,53 +23,55 @@
 		String keyField = request.getParameter("keyField");	
 		String keyWord = request.getParameter("keyWord");
 		
-		LclBean lbean = lcl.getLcl(no);
-		String departure = lbean.getDeparture();
-		String port = lbean.getPort();
-		String address = lbean.getAddress();
-		String transit = lbean.getTransit();
-		String arrive = lbean.getArrive();
-		String aport = lbean.getAport();
-		String aAddress = lbean.getaAddress();
-		String aTransit = lbean.getaTransit();
-		String incoterms = lbean.getIncoterms();
-		String packingType = lbean.getPackingType();
-		String item = lbean.getItem();
-		String danger = lbean.getDanger();
-		String stackable = lbean.getStackable();
-		String lss = lbean.getLss();
-		String surcharge = lbean.getSurcharge();
-		String extra = lbean.getExtra();
-		String client = lbean.getClient();
-		String volumeUnit = lbean.getVolumeUnit();
-		String weightUnit = lbean.getWeightUnit();
-		String regdate = lbean.getRegdate();
-		int count = lbean.getCount();
-		int width = lbean.getWidth();//가로
-		int llength = lbean.getLlength();//세로
-		int height = lbean.getHeight();//높이
-		int volume = lbean.getVolume();
-		int packageCount = lbean.getPackageCount();
-		int totalCBM=0;
-		totalCBM=(width*llength*height)*packageCount;
+		FclBean fbean = fcl.getFcl(no);
+		String departure = fbean.getDeparture();
+		String port = fbean.getPort();
+		String address = fbean.getAddress();
+		String transit = fbean.getTransit();
+		String arrive = fbean.getArrive();
+		String aport = fbean.getAport();
+		String aAddress = fbean.getaAddress();
+		String aTransit = fbean.getaTransit();
+		String incoterms = fbean.getIncoterms();
+		String item = fbean.getItem();
+		String ctype = fbean.getCtype();
+		String csize = fbean.getCsize();
+		String danger = fbean.getDanger();
+		String lss = fbean.getLss();
+		String surcharge = fbean.getSurcharge();
+		String extra = fbean.getExtra();
+		String regdate = fbean.getRegdate();
+		int count = fbean.getCount();
+		String client = fbean.getClient();
+		int volume = fbean.getVolume();
 		
-		int lclno = lclbean.getLclno();
-		int pickupRate = lclbean.getPickupRate();
-		int ofRate = lclbean.getOfRate();
-		int customsBrokerRate = lclbean.getCustomsBrokerRate();
-		int blDocRate = lclbean.getBlDocRate();
-		int consolThcRate = lclbean.getConsolThcRate();
-		int portTransferRate = lclbean.getPortTransferRate();
-		int vgmRate = lclbean.getVgmRate();
-		int amsHandlingRate = lclbean.getAmsHandlingRate();
 		
-		String remarks = lclbean.getRemarks();
-		String oftype = lclbean.getOftype();
-		String carrier = lclbean.getCarrier();
-		String tt = lclbean.getTt();
-		String validity = lclbean.getValidity();
-		String date = lclbean.getDate();
-		String state = lclbean.getState();
+		FclQuotationBean fclqBean = fclq.getFclQuotationeDetail(no);
+		int fclno = fclqBean.getFclno();
+		int pickupRate = fclqBean.getPickupRate();
+		int stuffingRate = fclqBean.getStuffingRate();
+		int lashingRate = fclqBean.getLashingRate();
+		int ofRate = fclqBean.getOfRate();
+		int lssebs = fclqBean.getLssebs();
+		int customsBrokerRate = fclqBean.getCustomsBrokerRate();
+		int thcRate = fclqBean.getThcRate();
+		int otherRate = fclqBean.getOtherRate();
+		int amsRate = fclqBean.getAmsRate();
+		int vgmRate = fclqBean.getVgmRate();
+		int handlingRate = fclqBean.getHandlingRate();
+		int won = fclqBean.getWon();
+		String remark = fclqBean.getRemarks();
+		String oftype = fclqBean.getOftype();
+		String carrier = fclqBean.getCarrier();
+		String tt = fclqBean.getTt();
+		String validity = fclqBean.getValidity();
+		String date = fclqBean.getDate();
+		String state = fclqBean.getState();
+		
+		
+		//콘솔창에 bean 찍어보기
+		System.out.println("출력테스트 문자"+remark);
+		System.out.println("출력테스트 숫자"+pickupRate);
 		
 %>
 <!DOCTYPE html>
@@ -89,29 +88,28 @@
 	</head>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
-	function call(){
-	   	var pickupRate =document.getElementById("pickupRate").value;
-	   	var ofRate =  document.getElementById("ofRate").value;
-		var customsBrokerRate =  document.getElementById("customsBrokerRate").value;
-	   	var blDocRate =  document.getElementById("blDocRate").value;
-		var consolThcRate =  document.getElementById("consolThcRate").value;
-		var portTransferRate =  document.getElementById("portTransferRate").value;
-		var vgmRate =  document.getElementById("vgmRate").value;
-		var amsHandlingRate =  document.getElementById("amsHandlingRate").value;
-		
-		
-		var sum = (parseInt(pickupRate)+parseInt(ofRate)+parseInt(customsBrokerRate)
-				+parseInt(blDocRate)+parseInt(consolThcRate)+parseInt(portTransferRate)
-				+parseInt(vgmRate)+parseInt(amsHandlingRate));
-	 	console.log(sum)
-		$("#usd").val(sum);
-	}
-	
-	
+		function call(){
+			   	var pickupRate =document.getElementById("pickupRate").value;
+				var stuffingRate = document.getElementById("stuffingRate").value;
+				var lashingRate =  document.getElementById("lashingRate").value;
+				var ofRate =  document.getElementById("ofRate").value;
+				var lssebs =  document.getElementById("lssebs").value;
+				var customsBrokerRate =  document.getElementById("customsBrokerRate").value;
+				var thcRate =  document.getElementById("thcRate").value;
+				var otherRate =  document.getElementById("otherRate").value;
+				var amsRate =  document.getElementById("amsRate").value;
+				var vgmRate =  document.getElementById("vgmRate").value;
+				var handlingRate =  document.getElementById("handlingRate").value;
+				
+				var sum = (parseInt(pickupRate)+parseInt(stuffingRate)+parseInt(lashingRate)
+						+parseInt(ofRate)+parseInt(lssebs)+parseInt(customsBrokerRate)
+						+parseInt(thcRate)+parseInt(otherRate)+parseInt(amsRate)
+						+parseInt(vgmRate)+parseInt(handlingRate));
+			 	console.log(sum)
+				$("#usd").val(sum);
+		}
 	</script>
-	</head>
 	<body>
-	
 	<nav class="navbar navbar-default navbar-mobile navbar-fixed light bootsnav">
 			<div class="container">
 				<div class="navbar-header">
@@ -176,28 +174,25 @@
 		<div class="page-title image-title" style="background-image:url(assets/img/banner.jpg);">
 			<div class="container">
 				<div class="page-title-wrap">
-				<h2>LCL 인코텀즈&nbsp;&nbsp;&nbsp;<%=lbean.getIncoterms()%>(<%=lbean.getPort()%>-<%=lbean.getAport()%>)</h2>
-				<p><a href="#" class="theme-cl">Home</a> | <span>LCL 견적의뢰 디테일</span></p>
+				<h2>FCL 인코텀즈&nbsp;&nbsp;&nbsp;<%=fbean.getIncoterms()%>(<%=fbean.getPort()%>-<%=fbean.getAport()%>)</h2>
+				<p><a href="#" class="theme-cl">Home</a> | <span>FCL 견적의뢰 디테일</span></p>
 				</div>
 			</div>
 		</div>
 		
 		
-		
-		<form method="post" action="lclReplyProc.jsp">
+		<form method="post" action="fclReplyUpdateProc.jsp">
 		<section class="gray-bg">
 			<div class="container">
 				<div class="row">
 					<div class="simple-tab-style">
 						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation" class="active"><a href="#User" aria-controls="home" role="tab" data-toggle="tab"><%=lbean.getIncoterms()%>&nbsp;&nbsp;/&nbsp;&nbsp;LCL</a></li>
+							<li role="presentation" class="active"><a href="#User" aria-controls="home" role="tab" data-toggle="tab"><%=fbean.getIncoterms()%></a></li>
 						</ul>
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane fade in active" id="User">
 								<div class="simple-accordion">
 									<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-										
-										
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="title1">
 												<h4 class="panel-title">
@@ -207,21 +202,21 @@
 												</h4>
 											</div>
 											<div id="col1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="title1">
-												<div class="panel -body">
+												<div class="panel-body">
 													<div class="col-md-6">
-														<p><label>PICK UP : <%=lbean.getAddress()%></label></p>
-														<p><label>POL : <%=lbean.getPort()%>&nbsp;&nbsp;&nbsp;(<%=lbean.getDeparture() %>)</label></p>
-														<p><label>POD : <%=lbean.getAport()%>&nbsp;&nbsp;&nbsp;(<%=lbean.getArrive()%>)</label></p>
-														<p><label>TOTAL CMB : <%=lbean.getCbmCal()%></label></p>
-														<p><label>ITEM : <%=lbean.getItem()%></label></p>
+														<p><label>PICK UP : <%=fbean.getAddress()%></label></p>
+														<p><label>POL : <%=fbean.getPort()%>&nbsp;&nbsp;&nbsp;(<%=fbean.getDeparture() %>)</label></p>
+														<p><label>POD : <%=fbean.getAport()%>&nbsp;&nbsp;&nbsp;(<%=fbean.getArrive()%>)</label></p>
+														<p><label>CARGO : <%=fbean.getCtype()%><%=fbean.getCsize() %></label></p>
+														<p><label>ITEM : <%=fbean.getItem()%></label></p>
 													</div>	
 													<div class="col-md-6">
-														<p><label>WIDTH X Length X HEIGHT : <%=lbean.getWeightUnit()%>X<%=lbean.getLlength()%>X<%=lbean.getHeight()%></label></p>
-														<p><label>DANGER : <%=lbean.getDanger()%></label></p>
-														<p><label>INSURANCE : <%=lbean.getClient()%></label></p>
-														<p><label>LSS : <%=lbean.getLss()%></label></p>
-														<p><label>OCEAN SURCHARGE : <%=lbean.getSurcharge()%></label></p>
-														<p><label>EXTRA : <%=lbean.getExtra()%></label></p>
+														<p><label>VOLUME : <%=fbean.getVolume()%></label></p>
+														<p><label>DANGER : <%=fbean.getDanger()%></label></p>
+														<p><label>INSURANCE : <%=fbean.getClient()%></label></p>
+														<p><label>LSS : <%=fbean.getLss()%></label></p>
+														<p><label>OCEAN SURCHARGE : <%=fbean.getSurcharge()%></label></p>
+														<p><label>extra : <%=fbean.getExtra()%></label></p>
 													</div>
 												</div>
 											</div>
@@ -230,7 +225,7 @@
 											<div class="panel-heading" role="tab" id="title2">
 												<h4 class="panel-title">
 													<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#col2" aria-expanded="false" aria-controls="col2">
-														<%=lbean.getIncoterms()%> 
+														<%=fbean.getIncoterms()%> 
 													</a>
 												</h4>
 											</div>
@@ -241,61 +236,64 @@
 												<div class="panel-body">
 													<div class="col-md-4">
 														<p>
-															<label><%=lbean.getIncoterms()%> COST</label>
+															<label><%=fbean.getIncoterms()%> COST</label>
 														</p>
 														<div class="col-md-6">
 															<p>PICK UP : </p>
+															<p>STUFFING : </p>
+															<p>LASHING : </p>
 															<p>OCEAN FREIGHT</p>
-															<p>
-																<select class="wide form-control" name="oftype" required>
-																	<option value="DOOR/CY">DOOR/CY</option>
-																	<option value="CY/CY">CY/CY</option>
-																	<option value="CY/DOOR">CY/DOOR</option>
-																	<option value="DOOR/DOOR">DOOR/DOOR</option>
-																</select>
-															</p>
+															<p><input type="text"  class="form-control" name="oftype" value="<%=fclqBean.getOftype()%>" ></p>
 															<p>CUSTOMS</p>
-															<p>OTHERS</p>
-															<p>OTHERS</p>
-															<p>OTHERS</p>
-															<p>OTHERS</p>
+															<p>LOCAL CHARGE</p>
 															<p>HANDLING</p>
 														</div>	
 														<div class="col-md-6">
-															<p><%=lbean.getAddress()%>&nbsp;&nbsp;&nbsp;(<%=lbean.getDeparture()%>)</p>
-															<p>OCEAN FREIGHT (<%=lbean.getAddress()%>-<%=lbean.getPort()%>-<%=lbean.getAport()%>)</p>
-															<p>CUSTOMS BROKER FEE</p>
+															<p><%=fbean.getAddress()%>&nbsp;&nbsp;&nbsp;(<%=fbean.getDeparture()%>)</p>
+															<p>CARGO STUFF ON TO FR CNTR</p>
+															<p>LASHING COST (IF REQUIRED)</p>
+															<p>OCEAN FREIGHT (<%=fbean.getAddress()%>-<%=fbean.getPort()%>-<%=fbean.getAport()%>)</p>
+															<p>LSS + EMERGENCY BUNKER SURCHARGE</p>
+															<p>CUSTOMS CLEARANCE</p>
+															<p>TERMINAL HANDLING CHARGE</p>
 															<p>BL FEE + DOC FEE</p>
-															<p>CONSOLIDATION + TERMINAL HANDLING</p>
-															<p>PORT TRANSFER FEE</p>
-															<p>VGM FEE</p>
-															<p>AMS + <%=lbean.getIncoterms()%>HANDLING</p>
+															<p>AMS+ADMIN.</p>
+															<p>VGM COST</p>
+															<p><%=fbean.getIncoterms()%> HANDLING FEE </p>
 														</div>
 													</div>
 													<div class="col-md-4">
 														<p>
 															<label>RATE</label>
 														</p>
-														<p><input type="text" class="form-control"  name="pickupRate" id="pickupRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="ofRate" id ="ofRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="customsBrokerRate" id="customsBrokerRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="blDocRate" id="blDocRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="consolThcRate" id="consolThcRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="portTransferRate" id ="portTransferRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="vgmRate" id="vgmRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  onkeyup="call()" name="amsHandlingRate" id="amsHandlingRate" placeholder="USD" required></p>
-														<p><input type="hidden" class="form-control"  name="no" value="<%=no%>" required></p>
+														<p><input type="text" class="form-control" name="pickupRate" id="pickupRate" value="<%=fclqBean.getPickupRate() %>" ></p>
+														<p><input type="text" class="form-control" name="stuffingRate" id="stuffingRate" value="<%=fclqBean.getStuffingRate() %>"  ></p>
+														<p><input type="text" class="form-control" name="lashingRate"  id="lashingRate" value="<%=fclqBean.getLashingRate()%>"  ></p>
+														<p><input type="text" class="form-control" name="ofRate"  id="ofRate" value="<%=fclqBean.getOfRate() %>"  ></p>
+														<p><input type="text" class="form-control" name="lssebs"  id="lssebs" value="<%=fclqBean.getLssebs() %>"  ></p>
+														<p><input type="text" class="form-control" name="customsBrokerRate" id="customsBrokerRate" value="<%=fclqBean.getCustomsBrokerRate() %>" ></p>
+														<p><input type="text" class="form-control" name="thcRate" id="thcRate value="<%=fclqBean.getThcRate() %>" ></p>
+														<p><input type="text" class="form-control" name="otherRate" id="otherRate" value="<%=fclqBean.getOtherRate()%>"  ></p>
+														<p><input type="text" class="form-control" name="amsRate" id="amsRate" value="<%=fclqBean.getAmsRate() %>"  ></p>
+														<p><input type="text" class="form-control" name="vgmRate" id="vgmRate" value="<%=fclqBean.getVgmRate()%>" ></p>
+														<p><input type="text" class="form-control" name="vgmRate" id="vgmRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  onkeyup="call()"  name="handlingRate" id="handlingRate"  value="<%=fclqBean.getHandlingRate()%>"  ></p>
+														<p><input type="hidden" class="form-control" name="no" value="<%=no%>"></p>
+													
 													</div>
 													<div class="col-md-4">
 														<p><label>Unit / Remarks</label></p>
-														<p><input type="text" class="form-control"  name="remarks" required></p>
-														<p><input type="text" class="form-control"  value="PER W/M (MIN:<%=lbean.getCbmCal()%>CBM)" readonly></p>
-														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
-														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
-														<p><input type="text" class="form-control"  value="PER W/M (MIN:<%=lbean.getCbmCal()%>CBM)" readonly></p>
-														<p><input type="text" class="form-control"  value="PER W/M (MIN:<%=lbean.getCbmCal()%>CBM)" readonly></p>
-														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
-														<p><input type="text" class="form-control"  value="PER BL" readonly></p>
+														<p><input type="text" class="form-control"  value="<%=fclqBean.getRemarks() %>" ></p>
+														<p><input type="text" class="form-control"  value="PER CNTR" ></p>
+														<p><input type="text" class="form-control"  value="PER CNTR" ></p>
+														<p><input type="text" class="form-control"  value="PER <%=fbean.getCsize()%>" ></p>
+														<p><input type="text" class="form-control"  value="PER <%=fbean.getCsize()%>" ></p>
+														<p><input type="text" class="form-control"  value="<%=fclqBean.getCustomsBrokerRate() %>" ></p>
+														<p><input type="text" class="form-control"  value="PER CNTR" ></p>
+														<p><input type="text" class="form-control"  value="PER BL" ></p>
+														<p><input type="text" class="form-control"  value="PER BL" ></p>
+														<p><input type="text" class="form-control"  value="PER CNTR" ></p>
+														<p><input type="text" class="form-control"  value="PER CNTR" ></p>
 													</div>
 												</div>
 											</div>
@@ -316,18 +314,12 @@
 															<p><label>VALIDITY : </label></p>
 													 </div>	
 													 <div class="col-md-6">
-															<p><input type="text" class="form-control"  name ="carrier" placeholder="Enter..." required></p>
-															<p><input type="text" class="form-control" name ="tt"  placeholder="Enter..." required></p>
-															<p><input type="text" class="form-control" name ="validity"  placeholder="Enter..." required></p>
+															<p><input type="text" class="form-control"  name ="carrier" value="<%=fclqBean.getCarrier() %>" ></p>
+															<p><input type="text" class="form-control" name ="tt" value="<%=fclqBean.getTt() %>"  ></p>
+															<p><input type="text" class="form-control" name ="validity" value="<%=fclqBean.getValidity() %>"></p>
 													 </div>	
 												</div>
 											</div>
-											<p>
-												<select class="wide form-control" name="state" required>
-													<option value="Estimating in progress">Estimating in progress</option>
-													<option value="Quotation calculation completed">Quotation calculation completed</option>
-												</select>
-											</p>
 										</div>
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="title54">
@@ -344,14 +336,25 @@
 															<!-- <p><label>WON : </label></p> -->
 													 </div>	
 													 <div class="col-md-3">
-														<input type="number"  maxlength="255"  class="form-control"  name ="usd" id="usd">
+															<input type="number"  maxlength="255"  class="form-control"  name ="usd" id="usd">
 													 </div>	
 												</div>
 											</div>
 										</div>
 									</div>
-									 <button type="submit" class="btn theme-btn">견적 제출하기</button>
+									<%-- <p><input type="text"  class="form-control" name="state" value="<%=fclqBean.getState()%>" readonly></p> --%>
+									<div>
+										 <p align="right">
+											<%
+													switch(fclqBean.getState()){
+													case "1": out.print("Estimating in progress"); break;
+													case "2": out.print("Quotation calculation completed"); break;
+												}//---switch
+											%>
+										 </p>
+									 </div>
 									 <button type="button" class="btn theme-btn" onClick="history.back()">돌아가기</button>
+									 <button type="submit" class="btn theme-btn">수정완료</button>
 									 <input type="hidden" value="<%=id%>" name="id">
 								</div>
 							</div>
@@ -361,6 +364,7 @@
 			</div>
 		</section>
 		</form>
+		
 		
 		<form name="listFrm">
 			<input type="hidden" name="nowPage" value="<%=nowPage%>">

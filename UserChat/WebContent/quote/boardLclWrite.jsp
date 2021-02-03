@@ -2,14 +2,6 @@
 <%@page import="forwarders.UtilMgr"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="lcl" class="quote.LclMgr"/>
-<%
-		request.setCharacterEncoding("EUC-KR"); 
-		float width = 0;
-		float llength = 0;
-		float height = 0;
-		int packageCount=0;
-		float totalCBM = (width*llength*height)*packageCount;
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +23,7 @@
 				var pakageCount = 	document.getElementById("packageCount").value;
 				var test1 = ((width)*(llength)*(height))*(pakageCount);
 				var test2 = parseInt(test1);
-			 	var sum =parseFloat((width*llength*height)*packageCount);
+			 	//var sum =parseFloat((width*llength*height)*packageCount);
 				
 				console.log(width)
 				console.log(llength)

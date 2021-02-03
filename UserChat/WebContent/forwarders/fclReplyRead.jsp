@@ -67,7 +67,6 @@
 		int vgmRate = fclqBean.getVgmRate();
 		int handlingRate = fclqBean.getHandlingRate();
 		int won = fclqBean.getWon();
-		int usd = fclqBean.getUsd();
 		String remark = fclqBean.getRemarks();
 		String oftype = fclqBean.getOftype();
 		String carrier = fclqBean.getCarrier();
@@ -75,6 +74,7 @@
 		String validity = fclqBean.getValidity();
 		String date = fclqBean.getDate();
 		String state = fclqBean.getState();
+		
 		
 		//콘솔창에 bean 찍어보기
 		System.out.println("출력테스트 문자"+remark);
@@ -135,6 +135,21 @@
 						<%
 							if(id!=null){
 						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
 						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
 							<ul class="dropdown-menu megamenu-content" role="menu">
 								<li>
@@ -292,7 +307,6 @@
 													 <div class="col-md-6">
 															<p><label>CARRIER : </label></p>
 															<p><label>FREQUENCY/TRANSIT TIME : </label></p>
-															<p><label>SUBJECT TO DESTINATION CHARGE</label></p>
 															<p><label>VALIDITY : </label></p>
 													 </div>	
 													 <div class="col-md-6">
@@ -302,24 +316,42 @@
 													 </div>	
 												</div>
 											</div>
-											<div id="col4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="title4">
+										</div>
+										<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="title54">
+												<h4 class="panel-title">
+													<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion4" href="#col54" aria-expanded="false" aria-controls="col54">
+														TOTAL QUOTATION
+													</a>
+												</h4>
+											</div>
+											<div id="col54" class="panel-collapse collapse" role="tabpanel" aria-labelledby="title54">
 												<div class="panel-body">
-													 <div class="col-md-6">
-															<p><label>TOTAL USD: <%=fclqBean.getUsd() %> USD</label></p>
-															<p><label>TOTAL WON :<%=fclqBean.getWon() %> WON</label></p>
+													 <div class="col-md-3">
+															<p><label>USD : </label></p>
+															<!-- <p><label>WON : </label></p> -->
+													 </div>	
+													 <div class="col-md-3">
+															<p><input type="text" class="form-control"  value="<%=fclqBean.getUsd() %>" readonly></p>
+															<!-- <p><input type="text" class="form-control" name ="won" value="" required></p> -->
 													 </div>	
 												</div>
 											</div>
-											<p><input type="text"  class="form-control" name="state" value="<%=fclqBean.getState()%>" readonly></p>
 										</div>
 									</div>
-									</br>
-									<div align="right">
-										<h4><a class="collapsed" >TOTAL USD : <%=fclqBean.getUsd() %> USD (<%=fclqBean.getWon()%> WON)</a></h4>
-									</div>
-									</br>
-									 <button type="submit" class="btn theme-btn">견적 제출하기</button>
+									<%-- <p><input type="text"  class="form-control" name="state" value="<%=fclqBean.getState()%>" readonly></p> --%>
+									<div>
+										 <p align="right">
+											<%
+													switch(fclqBean.getState()){
+													case "1": out.print("Estimating in progress"); break;
+													case "2": out.print("Quotation calculation completed"); break;
+												}//---switch
+											%>
+										 </p>
+									 </div>
 									 <button type="button" class="btn theme-btn" onClick="history.back()">돌아가기</button>
+									 <button type="button" class="btn theme-btn" onClick="location.href='fclReplyUpdate.jsp?no=<%=fbean.getNo() %>'">수정하기</button>
 								</div>
 							</div>
 						</div>

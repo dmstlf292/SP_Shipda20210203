@@ -1,3 +1,4 @@
+<%@page import="forwarders.SUtilMgr"%>
 <%@page import="member.UserDAO"%>
 <%@page import="fmember.ForwardersMemberMgr"%>
 <%@page import="quote.FclBean"%>
@@ -52,27 +53,6 @@
 		String client = fbean.getClient();
 		int volume = fbean.getVolume();
 		
-		int fclno = fclbean.getFclno();
-		int pickupRate = fclbean.getPickupRate();
-		int stuffingRate = fclbean.getStuffingRate();
-		int lashingRate = fclbean.getLashingRate();
-		int ofRate = fclbean.getOfRate();
-		int lssebs = fclbean.getLssebs();
-		int thcRate = fclbean.getThcRate();
-		int otherRate = fclbean.getOtherRate();
-		int amsRate = fclbean.getAmsRate();
-		int vgmRate = fclbean.getVgmRate();
-		int handlingRate = fclbean.getHandlingRate();
-		int won = fclbean.getWon();
-		int usd = fclbean.getUsd();
-		
-		String remarks = fclbean.getRemarks();
-		String oftype = fclbean.getOftype();
-		String carrier = fclbean.getCarrier();
-		String tt = fclbean.getTt();
-		String validity = fclbean.getValidity();
-		String date = fclbean.getDate();
-		String state = fclbean.getState();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,11 +63,33 @@
     <title>디지털 수입물류 포워딩 Ship-da</title>
 	<link rel="stylesheet" href="assets/plugins/css/plugins.css">	
     <link href="assets/css/style.css" rel="stylesheet">
-	<link href="assets/css/responsiveness.css" rel="stylesheet"><link id="jssDefault" rel="stylesheet" href="assets/css/skins/default.css">
-
+	<link href="atkfkdssets/css/responsiveness.css" rel="stylesheet">
+	<link id="jssDefault" rel="stylesheet" href="assets/css/skins/default.css">
 	</head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		function call(){
+			   	var pickupRate =document.getElementById("pickupRate").value;
+				var stuffingRate = document.getElementById("stuffingRate").value;
+				var lashingRate =  document.getElementById("lashingRate").value;
+				var ofRate =  document.getElementById("ofRate").value;
+				var lssebs =  document.getElementById("lssebs").value;
+				var customsBrokerRate =  document.getElementById("customsBrokerRate").value;
+				var thcRate =  document.getElementById("thcRate").value;
+				var otherRate =  document.getElementById("otherRate").value;
+				var amsRate =  document.getElementById("amsRate").value;
+				var vgmRate =  document.getElementById("vgmRate").value;
+				var handlingRate =  document.getElementById("handlingRate").value;
+				
+				var sum = (parseInt(pickupRate)+parseInt(stuffingRate)+parseInt(lashingRate)
+						+parseInt(ofRate)+parseInt(lssebs)+parseInt(customsBrokerRate)
+						+parseInt(thcRate)+parseInt(otherRate)+parseInt(amsRate)
+						+parseInt(vgmRate)+parseInt(handlingRate));
+			 	console.log(sum)
+				$("#usd").val(sum);
+		}
+	</script>
 	<body>
-	
 	<nav class="navbar navbar-default navbar-mobile navbar-fixed light bootsnav">
 			<div class="container">
 				<div class="navbar-header">
@@ -254,17 +256,17 @@
 														<p>
 															<label>RATE</label>
 														</p>
-														<p><input type="text" class="form-control"  name="pickupRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="stuffingRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="lashingRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="ofRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="lssebs" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="customsBrokerRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="thcRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="otherRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="amsRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="vgmRate" placeholder="USD" required></p>
-														<p><input type="text" class="form-control"  name="handlingRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="pickupRate" id="pickupRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="stuffingRate" id="stuffingRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="lashingRate" id="lashingRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="ofRate" id="ofRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="lssebs" id="lssebs" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="customsBrokerRate" id="customsBrokerRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="thcRate" id="thcRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="otherRate" id="otherRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="amsRate" id="amsRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  name="vgmRate" id="vgmRate" placeholder="USD" required></p>
+														<p><input type="text" class="form-control"  onkeyup="call()" name="handlingRate" id="handlingRate" placeholder="USD" required></p>
 														<p><input type="hidden" class="form-control"  name="no" value="<%=no%>" required></p>
 													</div>
 													<div class="col-md-4">
@@ -307,6 +309,25 @@
 												</div>
 											</div>
 										</div>
+										<div class="panel panel-default">
+											<div class="panel-heading" role="tab" id="title54">
+												<h4 class="panel-title">
+													<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion4" href="#col54" aria-expanded="false" aria-controls="col54">
+														TOTAL QUOTATION
+													</a>
+												</h4>
+											</div>
+											<div id="col54" class="panel-collapse collapse" role="tabpanel" aria-labelledby="title54">
+												<div class="panel-body">
+													 <div class="col-md-3">
+															<p><label>USD : </label></p>
+													 </div>	
+													 <div class="col-md-3">
+														<input type="number"  maxlength="255"  class="form-control"  name ="usd" id="usd">
+													 </div>	
+												</div>
+											</div>
+										</div>
 										<p>
 											<select class="wide form-control" name="state" required>
 												<option value="Estimating in progress">Estimating in progress</option>
@@ -314,14 +335,10 @@
 											</select>
 										</p>
 									</div>
-									</br>
-									<div align="right">
-										<h4><a class="collapsed" >TOTAL USD : <%=fclbean.getUsd() %> USD (<%=fclbean.getWon()%> WON)</a></h4>
-									</div>
-									</br>
+									
 									 <button type="submit" class="btn theme-btn">견적 제출하기</button>
 									 <button type="button" class="btn theme-btn" onClick="history.back()">돌아가기</button>
-									 <input type="hidden" value="<%=userID%>" name="userID">
+									 <input type="hidden" value="<%=id%>" name="id">
 								</div>
 							</div>
 						</div>

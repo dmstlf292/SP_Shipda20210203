@@ -59,6 +59,54 @@ public class FclQuotationMgr {
 		return flag;
 	}
 	
+	public boolean updateFclQuotatione(FclQuotationBean fclq) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		boolean flag = false;
+		try {
+			con = pool.getConnection();
+			sql = "update fclQuotation set pickupRate=?, stuffingRate=?, where lashingRate=?, ofRate=?, lssebs=?, customsBrokerRate=?, thcRate=?,  otherRate=?, amsRate=?, vgmRate=?, handlingRate=?, usd=?, "
+					+ "remarks=?,  oftype=?, carrier=?, tt=?, validity=?, date=?, state =? fclno=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, fclq.getPickupRate());
+			pstmt.setInt(2, fclq.getStuffingRate());
+			pstmt.setInt(3, fclq.getLashingRate());
+			pstmt.setInt(4, fclq.getOfRate());
+			pstmt.setInt(5, fclq.getLssebs());
+			pstmt.setInt(6, fclq.getCustomsBrokerRate());
+			pstmt.setInt(7, fclq.getThcRate());
+			pstmt.setInt(8, fclq.getOtherRate());
+			pstmt.setInt(9, fclq.getAmsRate());
+			pstmt.setInt(10, fclq.getVgmRate());
+			pstmt.setInt(11, fclq.getHandlingRate());
+			pstmt.setInt(12, fclq.getUsd());
+
+			pstmt.setString(13, fclq.getRemarks());
+			pstmt.setString(14, fclq.getOftype());
+			pstmt.setString(15, fclq.getCarrier());
+			pstmt.setString(16, fclq.getTt());
+			pstmt.setString(17, fclq.getValidity());
+			pstmt.setString(18, fclq.getDate());
+			pstmt.setString(19, fclq.getState());
+			
+			if(pstmt.executeUpdate()==1) flag = true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return flag;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	//Detail
 	public FclQuotationBean getFclQuotationeDetail(int no) {
 		Connection con = null;
@@ -110,7 +158,7 @@ public class FclQuotationMgr {
 	}
 	
 	//list(사용자용)
-	public Vector<FclQuotationBean> getFclQuotationList(String userID){
+	public Vector<FclQuotationBean> getFclQuotationList(String id){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -118,9 +166,9 @@ public class FclQuotationMgr {
 		Vector<FclQuotationBean> vlist = new Vector<FclQuotationBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select * from fclQuotation where userID=? order by fclno desc";
+			sql = "select * from fclQuotation where id=? order by fclno desc";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, userID);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				FclQuotationBean quotation = new FclQuotationBean();

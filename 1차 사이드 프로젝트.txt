@@ -8,13 +8,6 @@
 
 
 
-*****기능구현
-실시간 채팅 끝
-채팅봇
-이메일 가입
-네이버 연동
-이메일 신고버튼 
-
 
 
 
@@ -45,3 +38,10 @@ http://openapi.customs.go.kr/openapi/service/newTradestatistics/getitemtradeList
 다음주 화~다담주 월 : 네이버 만들기
 
 
+
+
+
+파이썬 -플젝
+앱 플젝 -2개
+스프링 미리공부
+공공데이터 파싱

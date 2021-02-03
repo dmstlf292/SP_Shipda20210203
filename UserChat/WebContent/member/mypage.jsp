@@ -5,9 +5,9 @@
 <%@ page  contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="fcl" class="quote.FclMgr"/>
 <jsp:useBean id="fclq" class="forwarders.FclQuotationMgr"/>
-<%
-		request.setCharacterEncoding("EUC-KR");
-
+<%	
+	request.setCharacterEncoding("EUC-KR");
+	String id = (String)session.getAttribute("idKey");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +81,7 @@
 																</tr>
 															</thead>
 															<%
-																Vector<FclQuotationBean> vlist = fclq.getFclQuotationList(userID);
+																Vector<FclQuotationBean> vlist = fclq.getFclQuotationList(id);
 																out.println(vlist.size());
 																if(vlist.isEmpty()){
 																	
@@ -92,7 +92,7 @@
 															<%}else{
 																	for(int i=0; i<vlist.size();i++){
 																		FclQuotationBean quotation = vlist.get(i);
-																		int fclno = quotation.getFclno();
+																		int no = quotation.getNo();
 																		FclBean fbean = fcl.getFcl(vlist.get(i).getNo());
 															%>
 															<tbody>
@@ -105,9 +105,9 @@
 																	<td>
 																		<%
 																			switch(quotation.getState()){
-																				case "1":out.print("Waiting Quotation");break;
-																				case "2":out.print("Estimating in progress");break;
-																				case "3":out.print("Quotation calculation completed");break;
+																				/* case "1":out.print("Waiting Quotation");break; */
+																				case "1":out.print("Estimating in progress");break;
+																				case "2":out.print("Quotation calculation completed");break;
 																			}
 																		%>
 																	</td>

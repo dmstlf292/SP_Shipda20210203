@@ -46,12 +46,12 @@ public class LclMgr {
 			
 			
 			pstmt.setInt(20, ref);
-			pstmt.setFloat(21, bean.getWidth());
-			pstmt.setFloat(22, bean.getLlength());
-			pstmt.setFloat(23, bean.getHeight());
+			pstmt.setInt(21, bean.getWidth());
+			pstmt.setInt(22, bean.getLlength());
+			pstmt.setInt(23, bean.getHeight());
 			pstmt.setInt(24, bean.getVolume());
 			pstmt.setInt(25, bean.getPackageCount());
-			pstmt.setFloat(26, bean.getCbmCal());
+			pstmt.setInt(26, bean.getCbmCal());
 			pstmt.setString(27, bean.getUserID());
 			
 			if(pstmt.executeUpdate()==1) flag = true;

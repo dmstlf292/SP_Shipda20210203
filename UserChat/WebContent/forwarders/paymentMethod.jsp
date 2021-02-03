@@ -1,10 +1,12 @@
-<%@page import="member.UserDAO"%>
-<%@page import="forwarders.MonthMgr"%>
+<%@page import="forwarders.UtilMgr"%>
 <%@page import="forwarders.MonthBean"%>
-<%@page import="java.util.Vector"%>
+<%@page import="fmember.ForwardersMemberBean"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<jsp:useBean id="month" class="forwarders.MonthMgr"/>
+<%@page import="member.UserDAO"%>
+<%@page pageEncoding="EUC-KR"%>
 <jsp:useBean id="mMgr" class="fmember.ForwardersMemberMgr"/>
+<jsp:useBean id="mBean" class="fmember.ForwardersMemberBean"/>
+<jsp:useBean id="month" class="forwarders.MonthMgr"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String id = (String)session.getAttribute("idKey");
@@ -14,8 +16,12 @@
 			response.sendRedirect("../user/login.jsp?url="+url);
 			return;//이후에 jsp 코드 실행 안됨.
 		}
-		Vector<MonthBean> vlist = month.getMonthList();
-		int price = 0;
+		ForwardersMemberBean fbean = mMgr.getMember(id);
+		String name = mBean.getName();
+		String email = mBean.getEmail();
+		int no = UtilMgr.parseInt(request,"no");
+		MonthBean priceBean = month.getMonth(no);
+		int price = priceBean.getPrice();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +30,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>디지털 수입물류 포워딩 Ship-da</title>
-	<link rel="stylesheet" href="assets/plugins/css/plugins.css">
+   <title>디지털 수입물류 포워딩 Ship-da</title>
+	<link rel="stylesheet" href="assets/plugins/css/plugins.css">	
     <link href="assets/css/style.css" rel="stylesheet">
 	<link href="assets/css/responsiveness.css" rel="stylesheet"><link id="jssDefault" rel="stylesheet" href="assets/css/skins/default.css">
 	</head>
@@ -70,6 +76,21 @@
 						<%
 							if(id!=null){
 						%>
+						<li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">MyPage</a>
+							<ul class="dropdown-menu megamenu-content" role="menu">
+								<li>
+									<div class="row">
+										<div class="col-menu col-md-3">
+											<div class="content">
+												<ul class="menu-col">
+													<li><a href="../forwarders/mypageFcl.jsp">My Page</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
 						<li class="br-right"><a href="../user/userLogout.jsp" ><i class="login-icon ti-user"></i>Logout</a></li>
 						<%}%>
 					</ul>
@@ -79,38 +100,72 @@
 		<div class="page-title image-title" style="background-image:url(assets/img/banner.jpg);">
 			<div class="container">
 				<div class="page-title-wrap">
-				<h2>Our Services Membership</h2>
-				<p><a href="#" class="theme-cl">Home</a> | <span>Pricing</span></p>
+				<h2>Payment Method</h2>
+				<p><a href="#" class="theme-cl">Home</a> | <span>Payment Method</span></p>
 				</div>
 			</div>
 		</div>
 		<section class="gray-bg">
 			<div class="container">
-				<div class="container">
-					<%
-						for(int i=0; i<vlist.size();i++){
-							MonthBean bean = vlist.get(i);
-							int no = bean.getNo();
-							String name = bean.getName();
-					%>
-					<div class="col-md-4">
-						<div class="price-table-box style-2 br-primary">
-						
-							<i class="ti-settings"></i>
-							<h4><%=name %></h4>
-							
-							<div class="price-box">
-								<h2><sup>$</sup><%=bean.getPrice()%></h2>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="tr-single-box">
+							<div class="tr-single-header">
+								<h4><i class="ti-write"></i>Billing Information</h4>
 							</div>
-							
-							<div class="price-btn">
-								<a href="paymentMethod.jsp?no=<%=no%>"  class="btn btn-pricing">Purchase Now<i class="ti-shopping-cart"></i></a>
+							<div class="tr-single-body">
+								<div class="row">
+									<div class="col-sm-6">
+										<label>ID</label>
+										<input type="text" class="form-control" name ="id" value="<%=fbean.getId()%>">
+									</div>
+									<div class="col-sm-6">
+										<label>Name</label>
+										<input type="text" class="form-control" name ="name" value="<%=fbean.getName()%>">
+									</div>
+									<div class="col-sm-12">
+										<label>Email</label>
+										<input type="email" class="form-control" name="email" value="<%=fbean.getEmail()%>">
+									</div>
+								</div>	
 							</div>
-							
 						</div>
 					</div>
-					<%}%>	
 					
+					<div class="col-md-6">
+						<div class="tr-single-box">
+							<div class="tr-single-header">
+								<h4><i class="ti-credit-card"></i>Payment Methode</h4>
+							</div>
+							<div class="tr-single-body">
+								
+								<div class="payment-card">
+									<header class="payment-card-header cursor-pointer" data-toggle="collapse" data-target="#debit-credit" aria-expanded="true">
+										<div class="payment-card-title flexbox">
+											<h4>Credit / Debit Card</h4>
+										</div>
+										<div class="pull-right">
+											<img src="assets/img/credit.png" class="img-responsive" alt=""> 
+										</div>
+									</header>
+									<div class="collapse" id="debit-credit" aria-expanded="false">
+									<div class="col-sm-6 padd-top-10 text-right">
+													<label>Total Price</label>
+													<h2 class="mrg-0"><span class="theme-cl">$</span><%=priceBean.getPrice() %></h2>
+												</div>
+										<div class="payment-card-body">
+											<div class="row mrg-bot-20">
+												<div class="col-sm-12 bt-1 padd-top-15">
+													<button type="submit" onclick="location.href='payProc.jsp?price=<%=priceBean.getPrice()%>'"class="btn btn-m btn-success">Checkout</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -139,9 +194,6 @@
 				</li>
 			</ul>
 		</div>
-		<!-- /Switcher -->
-		 
-		<!-- =================== START JAVASCRIPT ================== -->
 		<script src="assets/plugins/js/jquery.min.js"></script>
 		<script src="assets/plugins/js/bootstrap.min.js"></script>
 		<script src="assets/plugins/js/viewportchecker.js"></script>
@@ -155,15 +207,10 @@
 		<script src="assets/plugins/js/daterangepicker.js"></script>
 		<script src="assets/plugins/js/wysihtml5-0.3.0.js"></script>
 		<script src="assets/plugins/js/bootstrap-wysihtml5.js"></script>
-		
-		<!-- Dashboard Js -->
 		<script src="assets/plugins/js/jquery.slimscroll.min.js"></script>
 		<script src="assets/plugins/js/jquery.metisMenu.js"></script>
 		<script src="assets/plugins/js/jquery.easing.min.js"></script>
- 
-		<!-- Custom Js -->
 		<script src="assets/js/custom.js"></script>
-		
 		<script src="assets/js/jQuery.style.switcher.js"></script>
 		<script>
 			function openRightMenu() {
@@ -179,7 +226,5 @@
 				$('#styleOptions').styleSwitcher();
 			});
 		</script>
-	
     </body>
-
 </html>

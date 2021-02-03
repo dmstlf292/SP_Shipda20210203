@@ -3,17 +3,11 @@
 <%@page import="forwarders.LclQuotationBean"%>
 <%@page import="java.util.Vector"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<jsp:useBean id="quotationMgr" class="forwarders.LclQuotationMgr"/>
+<jsp:useBean id="lclq" class="forwarders.LclQuotationMgr"/>
 <jsp:useBean id="lclMgr" class="quote.LclMgr"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String id = (String)session.getAttribute("idKey");
-		if(id==null){
-			//현재 접속된 url값
-			StringBuffer url = request.getRequestURL();
-			response.sendRedirect("../user/login.jsp?url="+url);
-			return;//이후에 jsp 코드 실행 안됨.
-		}
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,7 +136,8 @@
 																</tr>
 															</thead>
 															<%
-																Vector<LclQuotationBean> vlist = quotationMgr.getLclQuotationList();
+																Vector<LclQuotationBean> vlist = lclq.getLclQuotationList(id);
+																//out.println(vlist.size());
 																if(vlist.isEmpty()){
 															%>
 															<tr>
